@@ -176,6 +176,12 @@ function setBACDescription() {
   setText("advice", text);
 }
 
+// This makes the house icon on the REPORT screen work
+onEvent("toHome", "click", function() {
+  setScreen("screen3");
+});
+
+// This makes the house icon on the DRIVER PICKER screen work
 onEvent("toHome4", "click", function() {
   setScreen("screen3");
 });
