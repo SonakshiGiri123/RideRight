@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -154,10 +155,10 @@
             <button id="toHome5" class="icon-btn"><i class="fas fa-home"></i></button>
         </div>
         <h2>VisionScan AI</h2>
-        <p class="subtitle">Focus on the center</p>
-        <div class="card" style="background: #000; height: 300px; position: relative; overflow: hidden; border: 1px solid #3A3A3C;">
-            <div id="eyeDot" style="width: 24px; height: 24px; background: #007AFF; border-radius: 50%; position: absolute; top: 50%; left: 45%; display: none; box-shadow: 0 0 20px rgba(0,122,255,0.8);"></div>
-            <div id="scanOverlay" style="color: #FFFFFF; padding-top: 80px;">
+        <p class="subtitle">Focus on the movement</p>
+        <div id="testArea" class="card" style="background: #000; height: 300px; position: relative; overflow: hidden; border: 1px solid #3A3A3C;">
+            <div id="eyeDot" style="width: 24px; height: 24px; background: #007AFF; border-radius: 50%; position: absolute; top: 50%; left: 45%; display: none; z-index: 10; box-shadow: 0 0 20px rgba(0,122,255,0.8);"></div>
+            <div id="scanOverlay" style="color: #FFFFFF; padding-top: 80px; position: relative; z-index: 5;">
                 <i class="fas fa-eye" style="font-size: 3rem; margin-bottom: 15px; color: #007AFF;"></i>
                 <p id="scanStatus" style="font-weight: 600;">Ready for Stability Test?</p>
                 <button id="startScan" class="btn-main" style="width: 70%; margin-top: 20px;">Start Calibration</button>
