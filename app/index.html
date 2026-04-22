@@ -1,1 +1,41 @@
-<h1>RideRight Test</h1>
+<div id="screen3" class="card" style="display: block;">
+    <h1>RideRight</h1>
+    <p>Someone's waiting for you; Drive like it.</p>
+    <button id="BACcalculator" style="padding: 10px; margin: 5px;">Blood Alcohol Content Calculator</button>
+    <button id="DesignatedDriverPicker" style="padding: 10px; margin: 5px;">Designated Driver Picker</button>
+</div>
+
+<div id="screen1" class="card" style="display: none;">
+    <h2>Enter Information</h2>
+    <select id="sex">
+        <option>Male</option>
+        <option>Female</option>
+    </select>
+    
+    <select id="drinkNameDropdown">
+        <option>Light Beer</option>
+        <option>Regular Beer</option>
+        <option>Vodka</option>
+        </select>
+    
+    <input type="number" id="drinkNumber" placeholder="Number of Drinks?">
+    <input type="number" id="hours" placeholder="Hours since LAST drink?">
+    <input type="number" id="weight" placeholder="Weight (lb)?">
+    
+    <select id="ageDropdown">
+        <option>I'm 21+ years old.</option>
+        <option>I'm under 21</option>
+    </select>
+    
+    <button id="Go!" style="padding: 10px; margin-top: 10px;">Generate Report</button>
+    <button id="home1" style="padding: 10px;">Home</button>
+</div>
+
+<div id="screen2" class="card" style="display: none;">
+    <h2>REPORT</h2>
+    <img id="image1" src="" alt="Status Indicator" style="width: 100px;">
+    <h3>Your Estimated BAC is: <span id="estimatedBAC">0.00</span></h3>
+    <p id="advice" style="background: #f0f0f0; padding: 10px;">Our Recommendation will appear here.</p>
+    <p style="font-size: 0.8rem; color: gray;">*This is an estimate, not medical or legal advice.</p>
+    <button id="home2" style="padding: 10px;">Home</button>
+</div>
