@@ -1,23 +1,27 @@
 <div id="screen3" class="card" style="display: block;">
     <h1>RideRight</h1>
     <p>Someone's waiting for you; Drive like it.</p>
-    <button id="BACcalculator" style="padding: 10px; margin: 5px;">Blood Alcohol Content Calculator</button>
-    <button id="DesignatedDriverPicker" style="padding: 10px; margin: 5px;">Designated Driver Picker</button>
+    
+    <button id="BAC?" style="padding: 5px; margin: 5px;">What is BAC?</button>
+    <button id="driverPicker?" style="padding: 5px; margin: 5px;">What is the Driver Picker?</button>
+    <p id="questionmark" style="font-style: italic; color: gray;"></p>
+    
+    <button id="BACcalculator" style="padding: 10px; margin: 10px; background: var(--cac-navy); color: white;">BAC Calculator</button>
+    <button id="DesignatedDriverPicker" style="padding: 10px; margin: 10px; background: var(--cac-navy); color: white;">Designated Driver Picker</button>
 </div>
 
 <div id="screen1" class="card" style="display: none;">
     <h2>Enter Information</h2>
-    <select id="sex">
-        <option>Male</option>
-        <option>Female</option>
-    </select>
+    <select id="sex"><option>Male</option><option>Female</option></select>
     
     <select id="drinkNameDropdown">
-        <option>Light Beer</option>
-        <option>Regular Beer</option>
-        <option>Vodka</option>
-        </select>
+        <option>Light Beer</option><option>Regular Beer</option><option>Micro Brew</option>
+        <option>White Wine</option><option>Red Wine</option><option>80 Proof (A Shot)</option>
+        <option>Vodka</option><option>Whiskey</option><option>Tequila</option>
+        <option>Gin</option><option>Rum</option>
+    </select>
     
+    <input type="number" id="ouncesDropdown" placeholder="Ounces per drink? (Optional)">
     <input type="number" id="drinkNumber" placeholder="Number of Drinks?">
     <input type="number" id="hours" placeholder="Hours since LAST drink?">
     <input type="number" id="weight" placeholder="Weight (lb)?">
@@ -27,15 +31,33 @@
         <option>I'm under 21</option>
     </select>
     
-    <button id="Go!" style="padding: 10px; margin-top: 10px;">Generate Report</button>
-    <button id="home1" style="padding: 10px;">Home</button>
+    <button id="Go!" style="padding: 10px; margin-top: 10px; background: var(--cac-red); color: white;">Generate Report</button>
+    <button id="home" style="padding: 10px;">Back to Home</button>
 </div>
 
 <div id="screen2" class="card" style="display: none;">
     <h2>REPORT</h2>
-    <img id="image1" src="" alt="Status Indicator" style="width: 100px;">
+    <div style="text-align: center;">
+        <img id="image1" src="" alt="Status Indicator" style="width: 150px; margin-bottom: 15px;">
+    </div>
     <h3>Your Estimated BAC is: <span id="estimatedBAC">0.00</span></h3>
-    <p id="advice" style="background: #f0f0f0; padding: 10px;">Our Recommendation will appear here.</p>
+    <p id="advice" style="background: #f0f0f0; padding: 15px; border-radius: 5px; line-height: 1.5;"></p>
     <p style="font-size: 0.8rem; color: gray;">*This is an estimate, not medical or legal advice.</p>
-    <button id="home2" style="padding: 10px;">Home</button>
+    <button id="toHome" style="padding: 10px;">Back to Home</button>
 </div>
+
+<div id="screen4" class="card" style="display: none;">
+    <h2>Designated Driver Picker</h2>
+    <input type="text" id="text_input1" placeholder="Enter a name...">
+    <button id="add" style="padding: 5px;">Add Person</button>
+    
+    <p id="people" style="margin-top: 15px; font-weight: bold;">In the draw is...</p>
+    
+    <button id="Choose" style="padding: 10px; margin-top: 15px; background: var(--cac-blue); color: white;">Choose Driver!</button>
+    <h3 id="label6" style="color: var(--cac-navy); margin-top: 15px;">The designated driver is:</h3>
+    
+    <button id="restart" style="padding: 10px; margin-top: 20px;">Restart List</button>
+    <button id="home" style="padding: 10px;">Back to Home</button>
+</div>
+
+<script src="script.js"></script>
