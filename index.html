@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RideRight</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary: #007AFF; 
@@ -31,12 +32,10 @@
             text-align: center;
         }
 
-        /* --- Typography --- */
         h1 { font-size: 2.8rem; font-weight: 800; margin: 20px 0 5px 0; letter-spacing: -1px; }
         .subtitle { color: var(--text-sub); font-weight: 600; margin-bottom: 30px; }
         h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-sub); margin-bottom: 15px; }
 
-        /* --- Cards --- */
         .card {
             background: var(--card);
             border-radius: 20px;
@@ -45,7 +44,6 @@
             margin-bottom: 20px;
         }
 
-        /* --- UI Elements --- */
         .btn-main {
             background: var(--primary);
             color: white;
@@ -57,9 +55,7 @@
             width: 100%;
             margin: 10px 0;
             cursor: pointer;
-            transition: transform 0.1s ease;
         }
-        .btn-main:active { transform: scale(0.98); }
 
         .btn-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .btn-q {
@@ -84,7 +80,22 @@
             box-sizing: border-box;
         }
 
-        .car-img { width: 100%; border-radius: 15px; margin-top: 30px; }
+        /* Black Icon Styles */
+        .icon-btn { 
+            background: none; 
+            border: none; 
+            font-size: 1.4rem; 
+            color: #000000; 
+            cursor: pointer; 
+            padding: 10px;
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 5px;
+            width: 100%;
+        }
 
         #people {
             background: var(--accent);
@@ -95,8 +106,6 @@
             text-align: left;
             margin-bottom: 20px;
         }
-
-        .icon-btn { background: none; border: none; font-size: 2rem; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -106,7 +115,6 @@
     <div id="screen3">
         <h1>RideRight</h1>
         <p class="subtitle">Someone's waiting for you;<br>Drive like it.</p>
-        
         <div class="btn-row">
             <button id="BACcalculator" class="btn-main">BAC Calculator</button>
             <button id="BAC?" class="btn-q">?</button>
@@ -115,18 +123,16 @@
             <button id="DesignatedDriverPicker" class="btn-main">Driver Picker</button>
             <button id="driverPicker?" class="btn-q">?</button>
         </div>
-        <p id="questionmark" style="font-size: 0.9rem; color: var(--text-sub);"></p>
-        
-        <img src="blue_car.png" class="car-img" alt="RideRight Car">
+        <img src="blue_car.png" style="width:100%; border-radius:15px; margin-top:20px;">
     </div>
 
     <div id="screen1" style="display: none;">
-        <h2>Enter Information</h2>
+        <h2>Information</h2>
         <div class="card">
             <select id="sex"><option>Male</option><option>Female</option></select>
             <select id="drinkNameDropdown">
                 <option>Select Drink Type</option>
-                <option>Light Beer</option><option>Regular Beer</option><option>Wine</option><option>Liquor/Shot</option>
+                <option>Light Beer</option><option>Regular Beer</option><option>Wine</option><option>Liquor</option>
             </select>
             <input type="number" id="drinkNumber" placeholder="Number of Drinks">
             <input type="number" id="hours" placeholder="Hours since last drink">
@@ -134,26 +140,28 @@
             <select id="ageDropdown"><option>21+ Years Old</option><option>Under 21</option></select>
         </div>
         <button id="Go!" class="btn-main">Generate Report</button>
-        <button id="home" class="icon-btn" style="font-size: 1rem; color: var(--text-sub);">← Back</button>
+        <button id="home" class="icon-btn" style="font-size: 1rem;">← Back</button>
     </div>
 
     <div id="screen2" style="display: none;">
-        <div style="text-align: right;"><button id="toHome" class="icon-btn">🏠</button></div>
-        <h2 style="text-align: left;">Your Report</h2>
-        <div class="card" style="background: var(--bg); height: 200px; display: flex; align-items: center; justify-content: center;">
-             <img id="image1" src="" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+        <div class="header-controls">
+            <button id="toHome" class="icon-btn"><i class="fas fa-home"></i></button>
+        </div>
+        <div class="card" style="height: 180px; display: flex; align-items: center; justify-content: center;">
+             <img id="image1" src="" style="max-height: 100%; object-fit: contain;">
         </div>
         <div class="card">
-            <h3 style="margin: 0; font-size: 1rem; color: var(--text-sub);">Estimated BAC</h3>
+            <h3 style="margin: 0; color: var(--text-sub);">Estimated BAC</h3>
             <span id="estimatedBAC" style="font-size: 3rem; font-weight: 800; color: var(--primary);">0.00</span>
         </div>
-        <div id="advice" class="card" style="text-align: left; font-size: 0.9rem;">
-            <b>Recommendation:</b> Loading...
-        </div>
+        <div id="advice" class="card" style="text-align: left; font-size: 0.9rem;"></div>
     </div>
 
     <div id="screen4" style="display: none;">
-        <div style="text-align: right;"><button id="toHome4" class="icon-btn">🏠</button></div>
+        <div class="header-controls">
+            <button id="restart" class="icon-btn"><i class="fas fa-redo"></i></button>
+            <button id="toHome4" class="icon-btn"><i class="fas fa-home"></i></button>
+        </div>
         <h2>Driver Picker</h2>
         <div class="card">
             <div style="display: flex; gap: 10px;">
@@ -163,10 +171,8 @@
         </div>
         <div id="people">No names yet...</div>
         <button id="Choose" class="btn-main">Random Pick!</button>
-        <h3 id="label6" style="margin-top: 15px;">The driver is: <span style="color: var(--primary);">...</span></h3>
-        <button id="restart" class="icon-btn">↻</button>
+        <h3 id="label6">The driver is: <span style="color: var(--primary);">...</span></h3>
     </div>
-
 </div>
 
 <script src="script.js"></script>
