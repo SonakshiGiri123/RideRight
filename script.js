@@ -223,10 +223,14 @@ onEvent("restart", "click", function() {
   // If you have a list variable for names, clear it here too!
 });
 
-// Navigation
-onEvent("toVision", "click", function() { setScreen("screen5"); });
+// Navigation Event Handlers
+onEvent("toHome", "click", function() { setScreen("screen3"); });
+onEvent("toHome4", "click", function() { setScreen("screen3"); });
 onEvent("toHome5", "click", function() { setScreen("screen3"); });
+onEvent("home", "click", function() { setScreen("screen3"); });
+onEvent("toVision", "click", function() { setScreen("screen5"); });
 
+// VisionScan AI Logic
 var hits = 0;
 var totalMoves = 0;
 
@@ -236,7 +240,6 @@ onEvent("startScan", "click", function() {
   hits = 0;
   totalMoves = 0;
   
-  // High-speed tracking sequence
   var scanInterval = setInterval(function() {
     var x = Math.random() * 80 + 5; 
     var y = Math.random() * 80 + 5; 
@@ -247,12 +250,11 @@ onEvent("startScan", "click", function() {
       clearInterval(scanInterval);
       endVisionScan();
     }
-  }, 750); // Moves every 0.75 seconds
+  }, 750); 
 });
 
 onEvent("eyeDot", "click", function() {
   hits++;
-  // Visual feedback for a "hit"
   setProperty("eyeDot", "background-color", "#5AC8FA");
   setTimeout(function() { setProperty("eyeDot", "background-color", "#007AFF"); }, 100);
 });
@@ -267,10 +269,16 @@ function endVisionScan() {
   setText("visionScore", "Stability Score: " + accuracy + "%");
   
   if (accuracy < 75) {
-    setText("visionAdvice", "Result: Impairment likely. Significant gaze instability detected. Do not operate a vehicle.");
-    setProperty("visionScore", "color", "#FF3B30"); // System Red
+    setText("visionAdvice", "Warning: High gaze instability. Neural motor response is delayed. Do not drive.");
+    setProperty("visionScore", "color", "#FF3B30"); 
   } else {
-    setText("visionAdvice", "Result: Normal range. Visual tracking appears stable. Please remain cautious.");
-    setProperty("visionScore", "color", "#34C759"); // System Green
+    setText("visionAdvice", "Normal range: Hand-eye coordination is stable. Use caution.");
+    setProperty("visionScore", "color", "#34C759"); 
   }
 }
+
+// Reset Driver Picker
+onEvent("restart", "click", function() {
+  setText("people", "No names yet...");
+  setText("driverName", "...");
+});
