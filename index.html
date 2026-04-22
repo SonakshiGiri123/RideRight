@@ -18,7 +18,7 @@
         .btn-q { background: var(--accent); border: none; border-radius: 12px; width: 55px; height: 55px; font-size: 1.2rem; font-weight: bold; cursor: pointer; }
         input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--accent); background: #FAFAFA; font-size: 1rem; box-sizing: border-box; }
         .icon-btn { background: none; border: none; font-size: 1.4rem; color: #000; cursor: pointer; padding: 10px; }
-        #people { background: var(--accent); border-radius: 12px; padding: 15px; max-height: 150px; overflow-y: auto; text-align: left; margin-bottom: 20px; }
+        #people { background: var(--accent); border-radius: 12px; padding: 15px; max-height: 150px; overflow-y: auto; text-align: left; margin-bottom: 20px; white-space: pre-wrap; }
         #questionmark { margin-top: 15px; font-size: 0.9rem; color: var(--text-sub); padding: 10px; min-height: 40px; }
     </style>
 </head>
@@ -67,7 +67,7 @@
             <h3 style="margin: 0; color: var(--text-sub);">Estimated BAC</h3>
             <span id="estimatedBAC" style="font-size: 3.5rem; font-weight: 800; color: var(--primary);">0.00</span>
         </div>
-        <div id="advice" class="card" style="text-align: left; font-size: 0.95rem; line-height: 1.5;"></div>
+        <div id="advice" class="card" style="text-align: left; font-size: 0.95rem; line-height: 1.5; white-space: pre-wrap;"></div>
     </div>
 
     <div id="screen4" style="display: none;">
