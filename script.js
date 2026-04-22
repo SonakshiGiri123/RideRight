@@ -185,3 +185,22 @@ onEvent("toHome", "click", function() {
 onEvent("toHome4", "click", function() {
   setScreen("screen3");
 });
+
+// --- Navigation Connections ---
+
+onEvent("toHome", "click", function() {
+  setScreen("screen3");
+});
+
+onEvent("toHome4", "click", function() {
+  setScreen("screen3");
+});
+
+onEvent("home", "click", function() {
+  setScreen("screen3");
+});
+
+// Ensure your 'Go!' button points to screen2
+onEvent("Go!", "click", function() {
+  setScreen("screen2");
+});
