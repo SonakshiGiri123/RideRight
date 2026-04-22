@@ -5,87 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RideRight | Sonakshi Giri</title>
     <style>
-        /* This section makes it look exactly like your original app */
-        body {
-            background-color: #C1E7FF; /* The light blue background from your images */
-            font-family: "Arial Black", "Arial", sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            padding-top: 20px;
-            color: #000;
-        }
+    body {
+        background-color: #C1E7FF;
+        font-family: "Arial Black", "Arial", sans-serif;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            padding: 20px;
-        }
+    .container {
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        padding: 10px; /* Reduced top padding */
+    }
 
-        h1 { font-size: 3rem; margin-bottom: 0; }
-        h2 { font-size: 2rem; margin-top: 0; text-transform: uppercase; }
-        p { font-size: 1.1rem; margin-bottom: 20px; }
+    /* Target the Title specifically to remove extra space */
+    h2 { 
+        font-size: 2.2rem; 
+        margin-top: 10px; 
+        margin-bottom: 20px; 
+        text-transform: uppercase; 
+    }
 
-        /* THE BLUE BUTTONS */
-        button {
-            background-color: #55B4FF; 
-            color: white;
-            border: none;
-            border-radius: 15px; /* Rounded corners */
-            padding: 15px;
-            font-size: 1.5rem;
-            font-family: "Arial Black", sans-serif;
-            width: 85%;
-            margin: 10px 0;
-            cursor: pointer;
-            box-shadow: 0px 4px 4px rgba(0,0,0,0.1);
-        }
+    /* UNIFORM BOXES: Makes everything align perfectly */
+    input, select {
+        width: 90%; /* Adjusted to match the button width */
+        padding: 15px;
+        margin: 10px 0; /* Consistent vertical spacing */
+        border-radius: 12px;
+        border: none;
+        background-color: #E3F4FF;
+        font-size: 1.1rem;
+        font-weight: bold;
+        box-sizing: border-box; /* Ensures padding doesn't break width */
+    }
 
-        /* THE QUESTION MARK BUTTONS */
-        .q-btn {
-            width: 50px;
-            height: 50px;
-            font-size: 1.5rem;
-            display: inline-block;
-            margin-left: 10px;
-            vertical-align: middle;
-        }
+    button {
+        background-color: #55B4FF; 
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 15px;
+        font-size: 1.8rem;
+        font-family: "Arial Black", sans-serif;
+        width: 90%;
+        margin: 20px 0 10px 0;
+        cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    }
 
-        /* FORM INPUTS */
-        input, select {
-            width: 85%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border: 1px solid #ffffff;
-            background-color: #E3F4FF;
-            font-size: 1rem;
-            font-family: Arial, sans-serif;
-        }
-
-        /* REPORT BOX */
-        #advice {
-            background-color: #E3F4FF;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: left;
-            min-height: 150px;
-            margin-top: 20px;
-            font-family: Arial, sans-serif;
-        }
-
-        .home-icon {
-            float: right;
-            background: none;
-            color: black;
-            font-size: 2rem;
-            width: auto;
-            box-shadow: none;
-        }
-    </style>
+    #home {
+        background: none;
+        color: #555;
+        font-size: 1.2rem;
+        box-shadow: none;
+        width: auto;
+    }
+</style>
 </head>
 <body>
 
