@@ -6,1215 +6,1039 @@
 <title>RideRight</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --night: #0A0C10;
-    --night2: #12151C;
-    --night3: #1A1E28;
-    --glass: rgba(255,255,255,0.04);
-    --glass-border: rgba(255,255,255,0.08);
-    --white: #F0F2F8;
-    --muted: #6B7280;
-    --green: #22C55E;
-    --green-dim: rgba(34,197,94,0.15);
-    --yellow: #F59E0B;
-    --yellow-dim: rgba(245,158,11,0.15);
-    --red: #EF4444;
-    --red-dim: rgba(239,68,68,0.15);
-    --blue: #3B82F6;
-    --blue-dim: rgba(59,130,246,0.12);
-    --purple: #A78BFA;
-    --r: 18px;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
-  body {
-    background: var(--night);
-    color: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100dvh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    overflow-x: hidden;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 20% 10%, rgba(59,130,246,0.07) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 60% at 80% 90%, rgba(167,139,250,0.06) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
- 
-  .app {
-    width: 100%;
-    max-width: 440px;
-    padding: 0 18px 40px;
-    position: relative;
-    z-index: 1;
-  }
- 
-  /* ---- SCREENS ---- */
-  .screen { display: none; animation: fadeUp 0.35s ease both; }
-  .screen.active { display: block; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
- 
-  /* ---- HEADER ---- */
-  .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0 12px;
-  }
-  .logo {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.7rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-    background: linear-gradient(130deg, #fff 30%, #6B97FF);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .home-btn {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    color: var(--muted);
-    border-radius: 12px;
-    width: 40px; height: 40px;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: color 0.2s, background 0.2s;
-  }
-  .home-btn:hover { color: var(--white); background: rgba(255,255,255,0.08); }
- 
-  /* ---- HOME SCREEN ---- */
-  .home-hero {
-    padding: 10px 0 28px;
-    text-align: left;
-  }
-  .home-hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.4rem, 10vw, 3rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -1.5px;
-    margin-bottom: 10px;
-  }
-  .home-hero p {
-    color: var(--muted);
-    font-size: 0.95rem;
-    font-weight: 300;
-    line-height: 1.6;
-    max-width: 300px;
-  }
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--green-dim);
-    border: 1px solid rgba(34,197,94,0.25);
-    color: var(--green);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border-radius: 100px;
-    padding: 5px 12px;
-    margin-bottom: 16px;
-  }
-  .hero-badge::before { content: '●'; font-size: 0.5rem; }
- 
-  .menu-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-  .menu-card {
-    background: var(--night2);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--r);
-    padding: 22px 18px;
-    cursor: pointer;
-    transition: transform 0.2s, border-color 0.2s, background 0.2s;
-    text-align: left;
-    position: relative;
-    overflow: hidden;
-  }
-  .menu-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .menu-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.15); background: var(--night3); }
-  .menu-card:active { transform: scale(0.97); }
-  .menu-icon {
-    font-size: 1.6rem;
-    margin-bottom: 12px;
-    display: block;
-  }
-  .menu-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 4px;
-    letter-spacing: -0.3px;
-  }
-  .menu-card p { font-size: 0.75rem; color: var(--muted); font-weight: 300; line-height: 1.4; }
-  .menu-card.span2 { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; padding: 18px 22px; }
-  .menu-card.span2 .menu-icon { margin-bottom: 0; font-size: 1.4rem; flex-shrink: 0; }
-  .menu-card.span2 div { flex: 1; }
- 
-  .card-accent { position: absolute; top: 10px; right: 12px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; }
- 
-  /* ---- CARDS ---- */
-  .card {
-    background: var(--night2);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--r);
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-  .card-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 14px;
-  }
- 
-  /* ---- FORM ELEMENTS ---- */
-  label { font-size: 0.8rem; color: var(--muted); font-weight: 400; display: block; margin-bottom: 5px; margin-top: 12px; }
-  label:first-child { margin-top: 0; }
-  input[type="number"], input[type="text"], select, textarea {
-    width: 100%;
-    background: var(--night3);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    color: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    padding: 13px 16px;
-    outline: none;
-    transition: border-color 0.2s;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
-  input:focus, select:focus { border-color: rgba(59,130,246,0.5); }
-  input::placeholder { color: var(--muted); }
- 
-  .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
- 
-  /* ---- BUTTONS ---- */
-  .btn {
-    width: 100%;
-    border: none;
-    border-radius: 14px;
-    padding: 16px;
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.15s, opacity 0.2s;
-    letter-spacing: 0.01em;
-  }
-  .btn:active { transform: scale(0.97); }
-  .btn-primary {
-    background: var(--white);
-    color: var(--night);
-    margin-bottom: 10px;
-  }
-  .btn-primary:hover { opacity: 0.92; }
-  .btn-secondary {
-    background: var(--night3);
-    color: var(--muted);
-    border: 1px solid var(--glass-border);
-    margin-bottom: 10px;
-  }
-  .btn-secondary:hover { color: var(--white); }
-  .btn-danger {
-    background: var(--red-dim);
-    color: var(--red);
-    border: 1px solid rgba(239,68,68,0.2);
-  }
- 
-  .btn-sm {
-    padding: 11px 18px;
-    font-size: 0.85rem;
-    width: auto;
-    border-radius: 12px;
-  }
-  .btn-icon {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    width: 40px; height: 40px;
-    font-size: 1rem;
-    cursor: pointer;
-    color: var(--muted);
-    display: flex; align-items: center; justify-content: center;
-    transition: color 0.2s, background 0.2s;
-    flex-shrink: 0;
-  }
-  .btn-icon:hover { color: var(--white); background: rgba(255,255,255,0.08); }
- 
-  /* ---- RESULT SCREEN ---- */
-  .bac-display {
-    background: var(--night2);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--r);
-    padding: 30px 20px;
-    text-align: center;
-    margin-bottom: 14px;
-    position: relative;
-    overflow: hidden;
-  }
-  .bac-display::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.6s;
-    pointer-events: none;
-  }
-  .bac-display.state-green::before { background: radial-gradient(ellipse at 50% 0%, var(--green-dim) 0%, transparent 70%); opacity: 1; }
-  .bac-display.state-yellow::before { background: radial-gradient(ellipse at 50% 0%, var(--yellow-dim) 0%, transparent 70%); opacity: 1; }
-  .bac-display.state-red::before { background: radial-gradient(ellipse at 50% 0%, var(--red-dim) 0%, transparent 70%); opacity: 1; }
- 
-  .bac-status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border-radius: 100px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    margin-bottom: 16px;
-    border: 1px solid;
-  }
-  .pill-green { background: var(--green-dim); color: var(--green); border-color: rgba(34,197,94,0.3); }
-  .pill-yellow { background: var(--yellow-dim); color: var(--yellow); border-color: rgba(245,158,11,0.3); }
-  .pill-red { background: var(--red-dim); color: var(--red); border-color: rgba(239,68,68,0.3); }
-  .pill-purple { background: rgba(167,139,250,0.15); color: var(--purple); border-color: rgba(167,139,250,0.3); }
- 
-  .bac-number {
-    font-family: 'Syne', sans-serif;
-    font-size: 5rem;
-    font-weight: 800;
-    letter-spacing: -3px;
-    line-height: 1;
-    margin-bottom: 4px;
-    transition: color 0.4s;
-  }
-  .bac-number.green { color: var(--green); }
-  .bac-number.yellow { color: var(--yellow); }
-  .bac-number.red { color: var(--red); }
-  .bac-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
- 
-  .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-  .info-tile {
-    background: var(--night2);
-    border: 1px solid var(--glass-border);
-    border-radius: 14px;
-    padding: 16px 12px;
-    text-align: center;
-  }
-  .info-tile .val {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 2px;
-    color: var(--white);
-  }
-  .info-tile .lbl { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
- 
-  .advice-card {
-    background: var(--night2);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--r);
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-  .advice-rec {
-    font-size: 0.95rem;
-    font-weight: 400;
-    line-height: 1.6;
-    margin-bottom: 14px;
-    color: var(--white);
-  }
-  .advice-symptoms {
-    background: var(--night3);
-    border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: var(--muted);
-    border-left: 3px solid var(--blue);
-  }
- 
-  .wait-bar-wrap {
-    background: var(--night2);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--r);
-    padding: 18px 20px;
-    margin-bottom: 14px;
-  }
-  .wait-bar-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-  .wait-bar-label span:last-child { color: var(--white); font-weight: 600; }
-  .wait-bar-track {
-    background: var(--night3);
-    border-radius: 100px;
-    height: 8px;
-    overflow: hidden;
-  }
-  .wait-bar-fill {
-    height: 100%;
-    border-radius: 100px;
-    background: linear-gradient(90deg, var(--green), var(--blue));
-    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    width: 0%;
-  }
- 
-  /* ---- DRIVER PICKER ---- */
-  .names-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    min-height: 48px;
-    margin-bottom: 16px;
-  }
-  .name-chip {
-    background: var(--night3);
-    border: 1px solid var(--glass-border);
-    border-radius: 100px;
-    padding: 6px 14px;
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    animation: fadeUp 0.25s ease both;
-  }
-  .name-chip button {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 0.75rem;
-    padding: 0;
-    line-height: 1;
-    transition: color 0.2s;
-  }
-  .name-chip button:hover { color: var(--red); }
-  .names-empty { color: var(--muted); font-size: 0.85rem; padding: 12px 0; }
- 
-  .winner-card {
-    background: var(--night2);
-    border: 1px solid rgba(34,197,94,0.3);
-    border-radius: var(--r);
-    padding: 28px 20px;
-    text-align: center;
-    margin-bottom: 14px;
-    position: relative;
-    overflow: hidden;
-  }
-  .winner-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, var(--green-dim) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .winner-card.hidden { display: none; }
-  .winner-trophy { font-size: 2rem; margin-bottom: 10px; }
-  .winner-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--green);
-    margin-bottom: 4px;
-  }
-  .winner-sub { font-size: 0.82rem; color: var(--muted); }
- 
-  /* ---- DRINK TRACKER (new!) ---- */
-  .drink-log-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
-  .drink-log-item {
-    background: var(--night3);
-    border-radius: 12px;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.88rem;
-    animation: fadeUp 0.2s ease both;
-  }
-  .drink-log-item .di-name { font-weight: 500; }
-  .drink-log-item .di-time { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
-  .drink-log-item .di-remove { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.9rem; transition: color 0.2s; }
-  .drink-log-item .di-remove:hover { color: var(--red); }
-  .drink-log-empty { color: var(--muted); font-size: 0.85rem; padding: 10px 0; text-align: center; }
- 
-  /* ---- TIPS SCREEN ---- */
-  .tips-list { display: flex; flex-direction: column; gap: 10px; }
-  .tip-item {
-    background: var(--night2);
-    border: 1px solid var(--glass-border);
-    border-radius: 14px;
-    padding: 16px 18px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-  }
-  .tip-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
-  .tip-content h4 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
-  .tip-content p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
- 
-  /* ---- DIVIDER ---- */
-  .divider { height: 1px; background: var(--glass-border); margin: 6px 0 16px; }
- 
-  /* ---- SECTION HEADER ---- */
-  .sec-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .sec-header h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-  }
- 
-  /* ---- INLINE INPUT ROW ---- */
-  .inline-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  .inline-row input { margin: 0; }
- 
-  /* scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--night3); border-radius: 4px; }
- 
-  /* ---- RANGE SLIDER ---- */
-  input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 6px;
-    background: var(--night3);
-    border-radius: 3px;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px; height: 20px;
-    background: var(--white);
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  }
- 
-  /* Tabs */
-  .tabs {
-    display: flex;
-    background: var(--night2);
-    border: 1px solid var(--glass-border);
-    border-radius: 14px;
-    padding: 4px;
-    margin-bottom: 18px;
-    gap: 4px;
-  }
-  .tab-btn {
-    flex: 1;
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    padding: 9px 6px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-  }
-  .tab-btn.active {
-    background: var(--night3);
-    color: var(--white);
-    font-weight: 600;
-  }
- 
-  /* ---- EMERGENCY BANNER ---- */
-  .emergency-banner {
-    background: var(--red-dim);
-    border: 1px solid rgba(239,68,68,0.35);
-    border-radius: 14px;
-    padding: 16px 18px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 14px;
-    display: none;
-  }
-  .emergency-banner.visible { display: flex; }
-  .emergency-banner .eb-icon { font-size: 1.4rem; flex-shrink: 0; }
-  .emergency-banner .eb-text { font-size: 0.88rem; line-height: 1.5; color: var(--red); font-weight: 500; }
-  .emergency-banner a { color: var(--red); font-weight: 700; }
- 
-  /* Footer disclaimer */
-  .disclaimer {
-    font-size: 0.7rem;
-    color: var(--muted);
-    text-align: center;
-    line-height: 1.5;
-    padding: 0 10px 10px;
-    opacity: 0.6;
-  }
+:root {
+  --night:  #09090B;
+  --night2: #111113;
+  --night3: #18181B;
+  --night4: #27272A;
+  --border: rgba(255,255,255,0.07);
+  --white:  #FAFAFA;
+  --muted:  #71717A;
+  --muted2: #52525B;
+  --green:  #22C55E;
+  --gdim:   rgba(34,197,94,0.12);
+  --yellow: #EAB308;
+  --ydim:   rgba(234,179,8,0.12);
+  --red:    #EF4444;
+  --rdim:   rgba(239,68,68,0.12);
+  --blue:   #60A5FA;
+  --bdim:   rgba(96,165,250,0.10);
+  --r: 16px;
+  --r-sm: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  background: var(--night);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse 70% 40% at 80% 5%, rgba(96,165,250,0.05) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+.app {
+  width: 100%; max-width: 430px;
+  padding: 0 16px 48px;
+  position: relative; z-index: 1;
+}
+
+/* ---- SCREENS ---- */
+.screen { display: none; }
+.screen.active { display: block; animation: up 0.3s ease both; }
+@keyframes up { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+/* ---- TOP BAR ---- */
+.top-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 0 16px;
+}
+.wordmark {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.4rem; font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--white);
+}
+.bar-actions { display: flex; gap: 8px; }
+.icon-btn {
+  background: var(--night3); border: 1px solid var(--border);
+  color: var(--muted); border-radius: 10px;
+  width: 36px; height: 36px; font-size: 0.85rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: color 0.15s, background 0.15s;
+  font-family: inherit;
+}
+.icon-btn:hover { color: var(--white); background: var(--night4); }
+
+/* ---- HOME ---- */
+.home-kicker {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+.home-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem, 10vw, 3.2rem);
+  font-weight: 800; line-height: 1.0; letter-spacing: -2px;
+  margin-bottom: 12px;
+}
+.home-sub {
+  color: var(--muted); font-size: 0.88rem; font-weight: 300;
+  line-height: 1.65; max-width: 280px; margin-bottom: 32px;
+}
+
+.nav-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 32px; }
+.nav-item {
+  background: none; border: none;
+  display: flex; align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; width: 100%; text-align: left;
+  transition: padding-left 0.2s;
+  gap: 16px;
+}
+.nav-item:first-child { border-top: 1px solid var(--border); }
+.nav-item:hover { padding-left: 6px; }
+.nav-item:hover .nav-arrow { color: var(--white); }
+.nav-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--muted2); flex-shrink: 0;
+  transition: background 0.15s;
+}
+.nav-item:hover .nav-dot { background: var(--blue); }
+.nav-text { flex: 1; }
+.nav-text strong {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.92rem; font-weight: 700;
+  display: block; margin-bottom: 1px; color: var(--white);
+}
+.nav-text span { font-size: 0.75rem; color: var(--muted); font-weight: 300; }
+.nav-arrow { color: var(--muted2); font-size: 0.75rem; transition: color 0.15s; }
+
+/* ---- CARD ---- */
+.card {
+  background: var(--night2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px;
+  margin-bottom: 12px;
+}
+.card-label {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 14px;
+}
+
+/* ---- FORM ---- */
+label.field-label {
+  display: block; font-size: 0.75rem; color: var(--muted);
+  margin-bottom: 5px; margin-top: 12px;
+}
+label.field-label:first-child { margin-top: 0; }
+
+input[type="number"],
+input[type="text"],
+input[type="time"],
+select {
+  width: 100%;
+  background: var(--night3); border: 1px solid var(--border);
+  border-radius: var(--r-sm); color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  padding: 11px 14px; outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none; appearance: none;
+}
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2371717A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer;
+}
+input:focus, select:focus { border-color: var(--blue); }
+input::placeholder { color: var(--muted2); }
+input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.4); }
+
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+/* ---- BUTTONS ---- */
+.btn {
+  display: block; width: 100%; border: none;
+  border-radius: var(--r-sm); padding: 14px;
+  font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+  letter-spacing: 0.01em; margin-bottom: 8px;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--white); color: var(--night); }
+.btn-primary:hover { opacity: 0.9; }
+.btn-ghost { background: var(--night3); color: var(--muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--white); }
+.btn-danger { background: var(--rdim); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+.btn-inline {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: auto; padding: 10px 16px; font-size: 0.82rem; border-radius: 9px; margin: 0;
+}
+
+/* ---- DRINK ROWS (multi-drink BAC) ---- */
+.drink-rows { display: flex; flex-direction: column; gap: 8px; }
+.drink-row {
+  background: var(--night3); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px;
+  display: grid; grid-template-columns: 1fr 80px 28px;
+  gap: 8px; align-items: end;
+  animation: up 0.2s ease both;
+}
+.drink-row select, .drink-row input { margin: 0; padding: 9px 10px; font-size: 0.82rem; }
+.drink-row select { padding-right: 28px; }
+.remove-btn {
+  background: none; border: none; color: var(--muted2);
+  cursor: pointer; font-size: 1rem; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 7px; transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+.remove-btn:hover { color: var(--red); background: var(--rdim); }
+.add-drink-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 0 0; cursor: pointer; background: none; border: none;
+  color: var(--muted); font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; width: 100%; transition: color 0.15s;
+}
+.add-drink-row:hover { color: var(--white); }
+.add-drink-row span { width: 20px; height: 20px; border: 1px dashed var(--muted2); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; flex-shrink: 0; }
+
+/* ---- RESULTS ---- */
+.bac-hero {
+  background: var(--night2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 28px 20px 24px;
+  text-align: center; margin-bottom: 12px;
+  position: relative; overflow: hidden;
+}
+.bac-hero::before {
+  content: ''; position: absolute; inset: 0;
+  pointer-events: none; opacity: 0; transition: opacity 0.5s;
+}
+.bac-hero.s-green::before { background: radial-gradient(ellipse at 50% -10%, var(--gdim) 0%, transparent 65%); opacity: 1; }
+.bac-hero.s-yellow::before { background: radial-gradient(ellipse at 50% -10%, var(--ydim) 0%, transparent 65%); opacity: 1; }
+.bac-hero.s-red::before { background: radial-gradient(ellipse at 50% -10%, var(--rdim) 0%, transparent 65%); opacity: 1; }
+
+.status-pill {
+  display: inline-block; border-radius: 100px;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 4px 12px; margin-bottom: 14px; border: 1px solid;
+}
+.sp-green { background: var(--gdim); color: var(--green); border-color: rgba(34,197,94,0.25); }
+.sp-yellow { background: var(--ydim); color: var(--yellow); border-color: rgba(234,179,8,0.25); }
+.sp-red { background: var(--rdim); color: var(--red); border-color: rgba(239,68,68,0.25); }
+
+.bac-val {
+  font-family: 'Syne', sans-serif; font-size: 5.5rem;
+  font-weight: 800; letter-spacing: -4px; line-height: 1; margin-bottom: 4px;
+  transition: color 0.35s;
+}
+.bac-val.green { color: var(--green); }
+.bac-val.yellow { color: var(--yellow); }
+.bac-val.red { color: var(--red); }
+.bac-sub { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.stat-tile {
+  background: var(--night2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 10px; text-align: center;
+}
+.stat-val {
+  font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 2px;
+}
+.stat-lbl { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+
+.burn-bar-card {
+  background: var(--night2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px 18px; margin-bottom: 12px;
+}
+.burn-bar-header {
+  display: flex; justify-content: space-between;
+  font-size: 0.75rem; color: var(--muted); margin-bottom: 10px;
+}
+.burn-bar-header strong { color: var(--white); font-weight: 600; }
+.bar-track { background: var(--night4); border-radius: 100px; height: 6px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--green), var(--blue)); transition: width 0.9s cubic-bezier(0.16,1,0.3,1); width: 0; }
+
+.advice-block {
+  background: var(--night2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 18px; margin-bottom: 12px;
+}
+.advice-rec { font-size: 0.9rem; line-height: 1.65; margin-bottom: 14px; }
+.advice-symptoms {
+  background: var(--night3); border-left: 2px solid var(--blue);
+  border-radius: 0 8px 8px 0; padding: 12px 14px;
+  font-size: 0.82rem; color: var(--muted); line-height: 1.6;
+}
+
+.emerg-banner {
+  background: var(--rdim); border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 12px; padding: 14px 16px;
+  font-size: 0.85rem; color: var(--red); line-height: 1.5;
+  margin-bottom: 12px; display: none;
+}
+.emerg-banner.show { display: block; }
+
+/* ---- DRINK TRACKER ---- */
+.tracker-add-card {
+  background: var(--night2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 18px; margin-bottom: 12px;
+}
+.time-row {
+  display: flex; gap: 10px; align-items: flex-end; margin-top: 10px;
+}
+.time-row > div { flex: 0 0 auto; }
+.time-note { font-size: 0.7rem; color: var(--muted2); align-self: center; flex: 1; }
+
+.log-table {
+  width: 100%; border-collapse: collapse;
+}
+.log-table thead th {
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted2);
+  padding: 0 0 8px; text-align: left; border-bottom: 1px solid var(--border);
+}
+.log-table thead th:last-child { text-align: right; }
+.log-table tbody tr { border-bottom: 1px solid var(--border); animation: up 0.2s ease both; }
+.log-table tbody tr:last-child { border-bottom: none; }
+.log-table tbody td {
+  padding: 10px 0; font-size: 0.85rem; vertical-align: middle;
+}
+.log-table tbody td.td-name { font-weight: 500; }
+.log-table tbody td.td-time { color: var(--muted); font-size: 0.78rem; font-variant-numeric: tabular-nums; white-space: nowrap; padding-right: 8px; }
+.log-table tbody td.td-action { text-align: right; white-space: nowrap; }
+.log-table .rm-btn {
+  background: none; border: none; color: var(--muted2);
+  cursor: pointer; font-size: 0.78rem; padding: 4px 6px;
+  border-radius: 5px; transition: color 0.15s, background 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.log-table .rm-btn:hover { color: var(--red); background: var(--rdim); }
+.log-empty { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 20px 0; }
+
+.log-summary {
+  display: flex; justify-content: space-between;
+  padding: 12px 0 0; margin-top: 4px; border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+.log-summary span { color: var(--muted); }
+.log-summary strong { color: var(--white); }
+
+.use-tracker-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bdim); border: 1px solid rgba(96,165,250,0.2);
+  border-radius: 10px; padding: 12px 14px;
+  font-size: 0.82rem; color: var(--blue); cursor: pointer;
+  width: 100%; text-align: left; font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s; margin-bottom: 12px;
+}
+.use-tracker-btn:hover { background: rgba(96,165,250,0.15); }
+.use-tracker-btn .utb-arrow { margin-left: auto; }
+
+/* ---- DRIVER PICKER ---- */
+.chips-wrap {
+  display: flex; flex-wrap: wrap; gap: 7px;
+  min-height: 36px; padding: 4px 0;
+}
+.chip {
+  background: var(--night3); border: 1px solid var(--border);
+  border-radius: 100px; padding: 5px 12px 5px 14px;
+  font-size: 0.82rem; display: flex; align-items: center; gap: 9px;
+  animation: up 0.2s ease both;
+}
+.chip button {
+  background: none; border: none; color: var(--muted2);
+  cursor: pointer; font-size: 0.7rem; line-height: 1;
+  transition: color 0.15s; padding: 0;
+}
+.chip button:hover { color: var(--red); }
+.chips-empty { color: var(--muted); font-size: 0.82rem; }
+
+.winner-wrap {
+  background: var(--night2); border: 1px solid rgba(34,197,94,0.25);
+  border-radius: var(--r); padding: 28px 20px;
+  text-align: center; margin: 12px 0;
+  position: relative; overflow: hidden;
+  display: none;
+}
+.winner-wrap.show { display: block; animation: up 0.3s ease both; }
+.winner-wrap::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, var(--gdim) 0%, transparent 60%);
+  pointer-events: none;
+}
+.winner-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.winner-name {
+  font-family: 'Syne', sans-serif; font-size: 2.2rem;
+  font-weight: 800; letter-spacing: -0.5px; color: var(--green); margin-bottom: 4px;
+}
+.winner-sub { font-size: 0.8rem; color: var(--muted); }
+
+/* ---- TIPS ---- */
+.tips-list { display: flex; flex-direction: column; }
+.tip-row {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  display: grid; grid-template-columns: 16px 1fr; gap: 16px;
+  align-items: start;
+}
+.tip-row:first-child { border-top: 1px solid var(--border); }
+.tip-marker { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); margin-top: 7px; }
+.tip-row h4 { font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+.tip-row p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+.disclaimer { font-size: 0.68rem; color: var(--muted2); text-align: center; line-height: 1.6; padding: 8px 16px 0; }
 </style>
 </head>
 <body>
 <div class="app">
- 
+
   <!-- ======== HOME ======== -->
   <div class="screen active" id="screen-home">
     <div class="top-bar">
-      <span class="logo">RideRight</span>
-      <button class="home-btn" id="btn-tips-nav" title="Safety Tips">💡</button>
+      <span class="wordmark">RideRight</span>
     </div>
-    <div class="home-hero">
-      <div class="hero-badge">Drink Smart. Drive Safe.</div>
-      <h1>Know before<br>you go.</h1>
-      <p>Estimate your BAC, track your drinks, and find a designated driver — all in one place.</p>
+    <div style="padding: 8px 0 28px;">
+      <div class="home-kicker">Drink responsibly</div>
+      <h1 class="home-headline">Know before<br>you go.</h1>
+      <p class="home-sub">Estimate your BAC, track your drinks, and find a designated driver.</p>
     </div>
- 
-    <div class="menu-grid">
-      <div class="menu-card" id="nav-bac">
-        <span class="menu-icon">🧪</span>
-        <h3>BAC Calculator</h3>
-        <p>Estimate your blood alcohol level</p>
-      </div>
-      <div class="menu-card" id="nav-tracker">
-        <span class="menu-icon">🍺</span>
-        <h3>Drink Tracker</h3>
-        <p>Log drinks in real time</p>
-      </div>
-      <div class="menu-card" id="nav-driver">
-        <span class="menu-icon">🎯</span>
-        <h3>DD Picker</h3>
-        <p>Fair random driver selection</p>
-      </div>
-      <div class="menu-card" id="nav-tips-home">
-        <span class="menu-icon">💡</span>
-        <h3>Safety Tips</h3>
-        <p>Rideshare info & staying safe</p>
-      </div>
-    </div>
-    <p class="disclaimer">Not a substitute for medical advice. Always err on the side of caution.</p>
+    <nav class="nav-list">
+      <button class="nav-item" id="nav-bac">
+        <span class="nav-dot"></span>
+        <span class="nav-text">
+          <strong>BAC Calculator</strong>
+          <span>Estimate blood alcohol content from multiple drink types</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+      <button class="nav-item" id="nav-tracker">
+        <span class="nav-dot"></span>
+        <span class="nav-text">
+          <strong>Drink Tracker</strong>
+          <span>Log drinks in real time with custom timestamps</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+      <button class="nav-item" id="nav-driver">
+        <span class="nav-dot"></span>
+        <span class="nav-text">
+          <strong>Designated Driver Picker</strong>
+          <span>Fair random selection from your group</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+      <button class="nav-item" id="nav-tips">
+        <span class="nav-dot"></span>
+        <span class="nav-text">
+          <strong>Safety Tips</strong>
+          <span>Rideshare info, pacing, and what to watch for</span>
+        </span>
+        <span class="nav-arrow">›</span>
+      </button>
+    </nav>
+    <p class="disclaimer">Not a substitute for medical advice. Estimates vary by individual. When in doubt, don't drive.</p>
   </div>
- 
+
   <!-- ======== BAC CALCULATOR ======== -->
   <div class="screen" id="screen-bac">
     <div class="top-bar">
-      <span class="logo">BAC Calc</span>
-      <button class="home-btn nav-home">⌂</button>
+      <span class="wordmark">BAC Calculator</span>
+      <div class="bar-actions">
+        <button class="icon-btn nav-home" title="Home">⌂</button>
+      </div>
     </div>
- 
+
     <div class="card">
-      <div class="card-title">About You</div>
-      <div class="input-row">
+      <div class="card-label">About You</div>
+      <div class="row3">
         <div>
-          <label>Biological Sex</label>
-          <select id="sex">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
+          <label class="field-label">Sex</label>
+          <select id="bac-sex"><option value="Male">Male</option><option value="Female">Female</option></select>
         </div>
         <div>
-          <label>Age Group</label>
-          <select id="ageDropdown">
-            <option value="21+">21+ Years Old</option>
-            <option value="Under 21">Under 21</option>
-          </select>
+          <label class="field-label">Age</label>
+          <select id="bac-age"><option value="21+">21+</option><option value="Under 21">Under 21</option></select>
+        </div>
+        <div>
+          <label class="field-label">Weight (lbs)</label>
+          <input type="number" id="bac-weight" placeholder="160" min="80" max="400">
         </div>
       </div>
-      <label>Body Weight (lbs)</label>
-      <input type="number" id="weight" placeholder="e.g. 160" min="80" max="400">
+      <label class="field-label">Hours since first drink</label>
+      <input type="number" id="bac-hours" placeholder="e.g. 2" min="0" step="0.5">
     </div>
- 
+
     <div class="card">
-      <div class="card-title">Drink Details</div>
-      <label>Drink Type</label>
-      <select id="drinkNameDropdown">
+      <div class="card-label">Drinks Consumed</div>
+      <div style="display:grid; grid-template-columns:1fr 80px 28px; gap:8px; margin-bottom:6px;">
+        <div style="font-size:0.65rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;">Drink Type</div>
+        <div style="font-size:0.65rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;">Qty</div>
+        <div></div>
+      </div>
+      <div class="drink-rows" id="drink-rows"></div>
+      <button class="add-drink-row" id="btn-add-row">
+        <span>+</span> Add another drink type
+      </button>
+    </div>
+
+    <button class="use-tracker-btn" id="btn-use-tracker">
+      Use my Drink Tracker log instead
+      <span class="utb-arrow">›</span>
+    </button>
+
+    <button class="btn btn-primary" id="btn-calculate">Calculate BAC</button>
+    <button class="btn btn-ghost nav-home">Back</button>
+  </div>
+
+  <!-- ======== BAC RESULT ======== -->
+  <div class="screen" id="screen-result">
+    <div class="top-bar">
+      <span class="wordmark">Your Result</span>
+      <div class="bar-actions">
+        <button class="icon-btn" id="btn-recalc" title="Recalculate">↺</button>
+        <button class="icon-btn nav-home" title="Home">⌂</button>
+      </div>
+    </div>
+
+    <div class="emerg-banner" id="emerg-banner">
+      This BAC level may be life-threatening. Call 911 or seek immediate medical attention.
+    </div>
+
+    <div class="bac-hero" id="bac-hero">
+      <div class="status-pill sp-green" id="status-pill">Clear</div>
+      <div class="bac-val green" id="bac-val">0.000</div>
+      <div class="bac-sub">Estimated Blood Alcohol Content</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-tile"><div class="stat-val" id="st-wait">0h</div><div class="stat-lbl">Wait Time</div></div>
+      <div class="stat-tile"><div class="stat-val" id="st-drinks">—</div><div class="stat-lbl">Total Drinks</div></div>
+      <div class="stat-tile"><div class="stat-val" id="st-legal" style="color:var(--green)">Legal</div><div class="stat-lbl">Status</div></div>
+    </div>
+
+    <div class="burn-bar-card">
+      <div class="burn-bar-header">
+        <span>Burn-off progress</span>
+        <strong id="burn-bar-label">Calculating...</strong>
+      </div>
+      <div class="bar-track"><div class="bar-fill" id="bar-fill"></div></div>
+    </div>
+
+    <div class="advice-block">
+      <div class="card-label">Recommendation</div>
+      <div class="advice-rec" id="advice-rec"></div>
+      <div class="advice-symptoms" id="advice-sym"></div>
+    </div>
+
+    <button class="btn btn-primary nav-home">Home</button>
+    <button class="btn btn-ghost" id="btn-recalc2">Recalculate</button>
+  </div>
+
+  <!-- ======== DRINK TRACKER ======== -->
+  <div class="screen" id="screen-tracker">
+    <div class="top-bar">
+      <span class="wordmark">Drink Tracker</span>
+      <div class="bar-actions">
+        <button class="icon-btn" id="btn-clear-log" title="Clear all">✕</button>
+        <button class="icon-btn nav-home" title="Home">⌂</button>
+      </div>
+    </div>
+
+    <div class="tracker-add-card">
+      <div class="card-label">Log a Drink</div>
+      <label class="field-label">Drink Type</label>
+      <select id="tracker-type">
         <optgroup label="Beer">
           <option value="Light Beer">Light Beer (4.2%)</option>
           <option value="Regular Beer">Regular Beer (5%)</option>
-          <option value="Micro Brew">Micro Brew / Craft (7%)</option>
+          <option value="Craft / Micro Brew">Craft / Micro Brew (7%)</option>
           <option value="IPA">IPA (6.5%)</option>
           <option value="Hard Seltzer">Hard Seltzer (5%)</option>
+          <option value="Hard Cider">Hard Cider (5%)</option>
         </optgroup>
         <optgroup label="Wine">
           <option value="White Wine">White Wine (12%)</option>
           <option value="Red Wine">Red Wine (15%)</option>
           <option value="Rosé">Rosé (12%)</option>
-          <option value="Champagne">Champagne / Prosecco (12%)</option>
+          <option value="Champagne / Prosecco">Champagne / Prosecco (12%)</option>
         </optgroup>
         <optgroup label="Spirits">
-          <option value="80 Proof (A Shot)">80-Proof Shot (40%)</option>
+          <option value="Shot (80-Proof)">Shot — 80 Proof (40%)</option>
           <option value="Vodka">Vodka (40%)</option>
-          <option value="Whiskey">Whiskey / Bourbon (40%)</option>
+          <option value="Whiskey / Bourbon">Whiskey / Bourbon (40%)</option>
           <option value="Tequila">Tequila (40%)</option>
           <option value="Gin">Gin (40%)</option>
           <option value="Rum">Rum (40%)</option>
         </optgroup>
         <optgroup label="Cocktails">
           <option value="Margarita">Margarita (13%)</option>
-          <option value="Long Island">Long Island Iced Tea (22%)</option>
-          <option value="Hard Cider">Hard Cider (5%)</option>
+          <option value="Long Island Iced Tea">Long Island Iced Tea (22%)</option>
           <option value="Spiked Punch">Spiked Punch (8%)</option>
         </optgroup>
       </select>
- 
-      <div class="input-row">
+
+      <div class="time-row">
         <div>
-          <label>Number of Drinks</label>
-          <input type="number" id="drinkNumber" placeholder="e.g. 3" min="0" step="0.5">
+          <label class="field-label">Time</label>
+          <input type="time" id="tracker-time" style="width:130px;">
         </div>
-        <div>
-          <label>Hours Since Last Drink</label>
-          <input type="number" id="hours" placeholder="e.g. 1" min="0" step="0.5">
-        </div>
+        <span class="time-note">defaults to now</span>
+        <button class="btn btn-primary btn-inline" id="btn-log-drink">Add Drink</button>
       </div>
     </div>
- 
-    <button class="btn btn-primary" id="btn-calculate">Calculate BAC →</button>
-    <button class="btn btn-secondary nav-home">Back to Home</button>
-  </div>
- 
-  <!-- ======== BAC RESULT ======== -->
-  <div class="screen" id="screen-result">
-    <div class="top-bar">
-      <button class="home-btn nav-home">⌂</button>
-      <button class="btn-icon" id="btn-recalc" title="Recalculate">↺</button>
-    </div>
- 
-    <div class="emergency-banner" id="emergency-banner">
-      <div class="eb-icon">🚨</div>
-      <div class="eb-text">This BAC level may be life-threatening. <strong>Call 911 or seek immediate medical help.</strong></div>
-    </div>
- 
-    <div class="bac-display" id="bac-display">
-      <div id="bac-pill" class="bac-status-pill pill-green">● Clear</div>
-      <div class="bac-number green" id="bac-number">0.00</div>
-      <div class="bac-label">Estimated Blood Alcohol Content</div>
-    </div>
- 
-    <div class="info-grid">
-      <div class="info-tile">
-        <div class="val" id="tile-wait">0h</div>
-        <div class="lbl">Wait Time</div>
-      </div>
-      <div class="info-tile">
-        <div class="val" id="tile-drinks">—</div>
-        <div class="lbl">Drinks</div>
-      </div>
-      <div class="info-tile">
-        <div class="val" id="tile-legal">✓</div>
-        <div class="lbl">Legal Limit</div>
-      </div>
-    </div>
- 
-    <div class="wait-bar-wrap" id="wait-bar-section">
-      <div class="wait-bar-label">
-        <span>Time to reach 0.00 BAC</span>
-        <span id="wait-label-right">~0 hours</span>
-      </div>
-      <div class="wait-bar-track">
-        <div class="wait-bar-fill" id="wait-bar-fill"></div>
-      </div>
-    </div>
- 
-    <div class="advice-card">
-      <div class="card-title">Recommendation</div>
-      <div class="advice-rec" id="advice-rec">Loading...</div>
-      <div class="advice-symptoms" id="advice-symptoms"></div>
-    </div>
- 
-    <button class="btn btn-primary nav-home" style="margin-top:4px;">Back to Home</button>
-    <button class="btn btn-secondary" id="btn-recalc2">Recalculate</button>
-  </div>
- 
-  <!-- ======== DRINK TRACKER ======== -->
-  <div class="screen" id="screen-tracker">
-    <div class="top-bar">
-      <span class="logo">Tracker</span>
-      <button class="home-btn nav-home">⌂</button>
-    </div>
- 
+
     <div class="card">
-      <div class="card-title">Log a Drink</div>
-      <label>Drink Type</label>
-      <select id="tracker-drink">
-        <option value="Light Beer">🍺 Light Beer</option>
-        <option value="Regular Beer">🍺 Regular Beer</option>
-        <option value="Micro Brew">🍺 Craft / Micro Brew</option>
-        <option value="IPA">🍺 IPA</option>
-        <option value="Hard Seltzer">🫧 Hard Seltzer</option>
-        <option value="White Wine">🍷 White Wine</option>
-        <option value="Red Wine">🍷 Red Wine</option>
-        <option value="Rosé">🍷 Rosé</option>
-        <option value="Champagne">🥂 Champagne / Prosecco</option>
-        <option value="80 Proof (A Shot)">🥃 Shot (80-Proof)</option>
-        <option value="Vodka">🥃 Vodka</option>
-        <option value="Whiskey">🥃 Whiskey</option>
-        <option value="Tequila">🥃 Tequila</option>
-        <option value="Margarita">🍹 Margarita</option>
-        <option value="Long Island">🍹 Long Island Iced Tea</option>
-        <option value="Hard Cider">🍎 Hard Cider</option>
-      </select>
-      <div style="display:flex; gap:10px; margin-top:10px;">
-        <button class="btn btn-primary btn-sm" id="btn-log-drink" style="flex:1; margin:0;">+ Add Drink</button>
+      <div class="card-label">Tonight's Log</div>
+      <div id="log-body">
+        <div class="log-empty" id="log-empty">No drinks logged yet.</div>
+      </div>
+      <div class="log-summary" id="log-summary" style="display:none;">
+        <span>Total: <strong id="log-count">0</strong> drinks</span>
+        <span>Est. alcohol: <strong id="log-alc">0 oz</strong></span>
       </div>
     </div>
- 
-    <div class="card">
-      <div class="card-title">Tonight's Log</div>
-      <div class="drink-log-list" id="drink-log-list">
-        <div class="drink-log-empty" id="log-empty">No drinks logged yet.</div>
-      </div>
-      <div class="divider"></div>
-      <div style="display:flex; justify-content:space-between; font-size:0.85rem; padding:2px 0;">
-        <span style="color:var(--muted)">Total drinks logged</span>
-        <span id="log-count" style="font-weight:700;">0</span>
-      </div>
-      <div style="display:flex; justify-content:space-between; font-size:0.85rem; padding:6px 0 0;">
-        <span style="color:var(--muted)">Est. pure alcohol</span>
-        <span id="log-alcohol" style="font-weight:700;">0 oz</span>
-      </div>
-    </div>
- 
-    <button class="btn btn-secondary" id="btn-clear-log">🗑 Clear Log</button>
-    <button class="btn btn-secondary nav-home">Back to Home</button>
+
+    <button class="btn btn-primary" id="btn-calc-from-tracker">Calculate BAC from this log</button>
+    <button class="btn btn-ghost nav-home">Back</button>
   </div>
- 
+
   <!-- ======== DRIVER PICKER ======== -->
   <div class="screen" id="screen-driver">
     <div class="top-bar">
-      <span class="logo">DD Picker</span>
-      <div style="display:flex;gap:8px;">
-        <button class="btn-icon" id="btn-restart-driver" title="Reset">↺</button>
-        <button class="home-btn nav-home">⌂</button>
+      <span class="wordmark">DD Picker</span>
+      <div class="bar-actions">
+        <button class="icon-btn" id="btn-reset-driver" title="Reset">↺</button>
+        <button class="icon-btn nav-home" title="Home">⌂</button>
       </div>
     </div>
- 
+
     <div class="card">
-      <div class="card-title">Add Names</div>
-      <div class="inline-row">
-        <input type="text" id="driver-name-input" placeholder="Enter name..." style="flex:1;">
-        <button class="btn btn-primary btn-sm" id="btn-add-driver" style="margin:0; width:auto; flex-shrink:0;">Add</button>
+      <div class="card-label">Add Names</div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input type="text" id="driver-input" placeholder="Enter a name..." style="flex:1; margin:0;">
+        <button class="btn btn-primary btn-inline" id="btn-add-name">Add</button>
       </div>
     </div>
- 
+
     <div class="card">
-      <div class="sec-header" style="margin-bottom:10px;">
-        <span class="card-title" style="margin:0;">In The Draw</span>
-        <span id="driver-count" style="font-size:0.8rem; color:var(--muted);">0 people</span>
-      </div>
-      <div class="names-list" id="names-list">
-        <span class="names-empty">Add names above to get started.</span>
+      <div class="card-label" style="margin-bottom:10px;">In the draw <span id="driver-count" style="font-weight:400;color:var(--muted2);">— 0 people</span></div>
+      <div class="chips-wrap" id="chips-wrap">
+        <span class="chips-empty">No names added yet.</span>
       </div>
     </div>
- 
-    <button class="btn btn-primary" id="btn-pick-driver">🎲 Random Pick!</button>
- 
-    <div class="winner-card hidden" id="winner-card">
-      <div class="winner-trophy">🏆</div>
+
+    <button class="btn btn-primary" id="btn-pick">Random Pick</button>
+
+    <div class="winner-wrap" id="winner-wrap">
+      <div class="winner-label">Designated Driver</div>
       <div class="winner-name" id="winner-name">—</div>
-      <div class="winner-sub">is the designated driver tonight!</div>
+      <div class="winner-sub">is the designated driver tonight</div>
     </div>
- 
-    <button class="btn btn-secondary nav-home">Back to Home</button>
+
+    <button class="btn btn-ghost nav-home">Back</button>
   </div>
- 
-  <!-- ======== SAFETY TIPS ======== -->
+
+  <!-- ======== TIPS ======== -->
   <div class="screen" id="screen-tips">
     <div class="top-bar">
-      <span class="logo">Safety Tips</span>
-      <button class="home-btn nav-home">⌂</button>
+      <span class="wordmark">Safety Tips</span>
+      <div class="bar-actions">
+        <button class="icon-btn nav-home">⌂</button>
+      </div>
     </div>
- 
     <div class="tips-list">
-      <div class="tip-item">
-        <div class="tip-icon">🚗</div>
-        <div class="tip-content">
-          <h4>Use a Rideshare</h4>
-          <p>If your BAC is above 0.05, always use Uber, Lyft, or a trusted sober friend instead of driving. It's not worth the risk.</p>
-        </div>
+      <div class="tip-row">
+        <div class="tip-marker"></div>
+        <div><h4>Use a Rideshare</h4><p>If your BAC is above 0.05, use Uber, Lyft, or a sober friend instead of driving. It's not worth the risk.</p></div>
       </div>
-      <div class="tip-item">
-        <div class="tip-icon">💧</div>
-        <div class="tip-content">
-          <h4>Alternate with Water</h4>
-          <p>Drinking a glass of water between alcoholic drinks slows alcohol absorption and reduces your peak BAC level.</p>
-        </div>
+      <div class="tip-row">
+        <div class="tip-marker"></div>
+        <div><h4>Time Is the Only Cure</h4><p>Coffee, water, and food do not lower your BAC. Your liver metabolizes approximately 0.015% per hour — nothing changes that rate.</p></div>
       </div>
-      <div class="tip-item">
-        <div class="tip-icon">🍔</div>
-        <div class="tip-content">
-          <h4>Eat Before & During</h4>
-          <p>Food — especially fats and proteins — in your stomach can slow alcohol absorption by up to 50%.</p>
-        </div>
+      <div class="tip-row">
+        <div class="tip-marker"></div>
+        <div><h4>Alternate with Water</h4><p>Drinking water between alcoholic drinks slows absorption and reduces peak BAC. It won't sober you up, but it helps pace things.</p></div>
       </div>
-      <div class="tip-item">
-        <div class="tip-icon">⏰</div>
-        <div class="tip-content">
-          <h4>Time Is the Only Cure</h4>
-          <p>Coffee, cold showers, and food do NOT sober you up. Your liver metabolizes ~0.015% BAC per hour — nothing else changes this.</p>
-        </div>
+      <div class="tip-row">
+        <div class="tip-marker"></div>
+        <div><h4>Eat Before and During</h4><p>Food — especially fats and proteins — in your stomach slows alcohol absorption and can reduce peak BAC significantly.</p></div>
       </div>
-      <div class="tip-item">
-        <div class="tip-icon">📱</div>
-        <div class="tip-content">
-          <h4>Pre-Plan Your Ride</h4>
-          <p>Before drinking, designate a driver or save a rideshare app. Making that decision while sober is always safer.</p>
-        </div>
+      <div class="tip-row">
+        <div class="tip-marker"></div>
+        <div><h4>Decide Before You Drink</h4><p>Designate a driver or save a rideshare app before the night starts. Decisions made while sober are better decisions.</p></div>
       </div>
-      <div class="tip-item">
-        <div class="tip-icon">🤝</div>
-        <div class="tip-content">
-          <h4>Look Out for Your Group</h4>
-          <p>Know the signs of alcohol poisoning: unconsciousness, slow/irregular breathing, pale/bluish skin. Call 911 immediately.</p>
-        </div>
+      <div class="tip-row">
+        <div class="tip-marker"></div>
+        <div><h4>Know the Legal Limits</h4><p>US general limit: 0.08%. Under 21: effectively 0.00–0.02% in most states. Commercial drivers: 0.04%.</p></div>
       </div>
-      <div class="tip-item">
-        <div class="tip-icon">⚖️</div>
-        <div class="tip-content">
-          <h4>Legal Limits Vary</h4>
-          <p>The US federal guideline is 0.08%. For drivers under 21, the limit is effectively 0.00%–0.02% in most states. Commercial drivers: 0.04%.</p>
-        </div>
+      <div class="tip-row">
+        <div class="tip-marker"></div>
+        <div><h4>Recognise Alcohol Poisoning</h4><p>Signs include unconsciousness, slow or irregular breathing, and pale or bluish skin. If you see this, call 911 immediately.</p></div>
       </div>
     </div>
-    <div style="margin-top:16px;">
-      <button class="btn btn-secondary nav-home">Back to Home</button>
+    <div style="margin-top: 20px;">
+      <button class="btn btn-ghost nav-home">Back to Home</button>
     </div>
   </div>
- 
+
 </div>
- 
+
 <script>
-// ===========================
-// DATA
-// ===========================
+// ==========================================
+// DRINK DATABASE
+// ==========================================
 const DRINKS = {
-  "Light Beer":         { size: 12,  pct: 4.2  },
-  "Regular Beer":       { size: 12,  pct: 5.0  },
-  "Micro Brew":         { size: 12,  pct: 7.0  },
-  "IPA":                { size: 12,  pct: 6.5  },
-  "Hard Seltzer":       { size: 12,  pct: 5.0  },
-  "White Wine":         { size: 5,   pct: 12   },
-  "Red Wine":           { size: 5,   pct: 15   },
-  "Rosé":               { size: 5,   pct: 12   },
-  "Champagne":          { size: 5,   pct: 12   },
-  "80 Proof (A Shot)":  { size: 1.5, pct: 40   },
-  "Vodka":              { size: 1.5, pct: 40   },
-  "Whiskey":            { size: 1.5, pct: 40   },
-  "Tequila":            { size: 1.5, pct: 40   },
-  "Gin":                { size: 1.5, pct: 40   },
-  "Rum":                { size: 1.5, pct: 40   },
-  "Margarita":          { size: 4,   pct: 13   },
-  "Long Island":        { size: 8,   pct: 22   },
-  "Hard Cider":         { size: 12,  pct: 5.0  },
-  "Spiked Punch":       { size: 8,   pct: 8.0  },
+  "Light Beer":           { size: 12,  pct: 4.2  },
+  "Regular Beer":         { size: 12,  pct: 5.0  },
+  "Craft / Micro Brew":   { size: 12,  pct: 7.0  },
+  "IPA":                  { size: 12,  pct: 6.5  },
+  "Hard Seltzer":         { size: 12,  pct: 5.0  },
+  "Hard Cider":           { size: 12,  pct: 5.0  },
+  "White Wine":           { size: 5,   pct: 12   },
+  "Red Wine":             { size: 5,   pct: 15   },
+  "Rosé":                 { size: 5,   pct: 12   },
+  "Champagne / Prosecco": { size: 5,   pct: 12   },
+  "Shot (80-Proof)":      { size: 1.5, pct: 40   },
+  "Vodka":                { size: 1.5, pct: 40   },
+  "Whiskey / Bourbon":    { size: 1.5, pct: 40   },
+  "Tequila":              { size: 1.5, pct: 40   },
+  "Gin":                  { size: 1.5, pct: 40   },
+  "Rum":                  { size: 1.5, pct: 40   },
+  "Margarita":            { size: 4,   pct: 13   },
+  "Long Island Iced Tea": { size: 8,   pct: 22   },
+  "Spiked Punch":         { size: 8,   pct: 8.0  },
 };
- 
-// ===========================
-// SCREEN ROUTING
-// ===========================
+
+function getDrinkAlcohol(name) {
+  const d = DRINKS[name];
+  return d ? d.size * d.pct / 100 : 0;
+}
+
+const DRINK_OPTS_HTML = (() => {
+  const groups = {
+    "Beer":     ["Light Beer","Regular Beer","Craft / Micro Brew","IPA","Hard Seltzer","Hard Cider"],
+    "Wine":     ["White Wine","Red Wine","Rosé","Champagne / Prosecco"],
+    "Spirits":  ["Shot (80-Proof)","Vodka","Whiskey / Bourbon","Tequila","Gin","Rum"],
+    "Cocktails":["Margarita","Long Island Iced Tea","Spiked Punch"],
+  };
+  let html = '';
+  for (const [g, items] of Object.entries(groups)) {
+    html += `<optgroup label="${g}">` + items.map(n => `<option value="${n}">${n}</option>`).join('') + '</optgroup>';
+  }
+  return html;
+})();
+
+// ==========================================
+// ROUTING
+// ==========================================
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById(id);
-  if (target) { target.classList.add('active'); window.scrollTo(0,0); }
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('active'); window.scrollTo(0, 0); }
 }
- 
-document.querySelectorAll('.nav-home').forEach(btn => {
-  btn.addEventListener('click', () => showScreen('screen-home'));
-});
-document.getElementById('nav-bac').addEventListener('click', () => showScreen('screen-bac'));
-document.getElementById('nav-tracker').addEventListener('click', () => showScreen('screen-tracker'));
+document.querySelectorAll('.nav-home').forEach(b => b.addEventListener('click', () => showScreen('screen-home')));
+document.getElementById('nav-bac').addEventListener('click', () => { initDrinkRows(); showScreen('screen-bac'); });
+document.getElementById('nav-tracker').addEventListener('click', () => { setTrackerTimeNow(); showScreen('screen-tracker'); });
 document.getElementById('nav-driver').addEventListener('click', () => showScreen('screen-driver'));
-document.getElementById('nav-tips-home').addEventListener('click', () => showScreen('screen-tips'));
-document.getElementById('btn-tips-nav').addEventListener('click', () => showScreen('screen-tips'));
- 
-// ===========================
-// BAC CALCULATOR
-// ===========================
-function calcBAC(weightLbs, drinks, hoursElapsed, sex, drinkType) {
-  const d = DRINKS[drinkType];
-  if (!d) return 0;
-  const pureAlcohol = drinks * d.size * (d.pct / 100);
-  const r = (sex === 'Male') ? 0.73 : 0.66;
-  const raw = ((pureAlcohol * 5.14) / (weightLbs * r)) - (0.015 * hoursElapsed);
-  return Math.max(0, Math.round(raw * 1000) / 1000);
+document.getElementById('nav-tips').addEventListener('click', () => showScreen('screen-tips'));
+
+// ==========================================
+// BAC CALCULATOR — MULTI-DRINK ROWS
+// ==========================================
+let drinkRowCount = 0;
+
+function makeDrinkRow(id) {
+  const div = document.createElement('div');
+  div.className = 'drink-row';
+  div.dataset.id = id;
+  div.innerHTML = `
+    <select class="dr-type">${DRINK_OPTS_HTML}</select>
+    <input class="dr-qty" type="number" placeholder="1" min="0.5" step="0.5" value="1">
+    <button class="remove-btn" data-id="${id}" title="Remove">✕</button>
+  `;
+  return div;
 }
- 
-function getBACState(bac) {
-  if (bac < 0.055) return 'green';
-  if (bac < 0.08)  return 'yellow';
-  return 'red';
-}
- 
-function getWaitHours(bac, underage) {
-  const target = underage ? 0.01 : 0.08;
-  if (bac <= target) return 0;
-  return Math.ceil((bac - (underage ? 0 : 0.07)) / 0.015);
-}
- 
-function getSymptomText(bac) {
-  if (bac === 0)       return 'No alcohol detected in blood. You are sober.';
-  if (bac <= 0.02)     return 'Mild relaxation, slight mood alteration, minimal coordination effects.';
-  if (bac <= 0.05)     return 'Feeling uninhibited, lowered alertness, mildly impaired judgment.';
-  if (bac <= 0.08)     return 'Reduced muscle coordination, impaired judgment and reasoning, harder to detect danger.';
-  if (bac <= 0.10)     return 'Slower reaction time, slurred speech, slowed thinking.';
-  if (bac <= 0.15)     return 'Mood swings, nausea, loss of balance, some muscle control impaired.';
-  if (bac <= 0.30)     return 'Confusion, vomiting, drowsiness. Consider getting medical attention if symptoms worsen.';
-  if (bac < 0.40)      return '⚠️ Likely alcohol poisoning. Risk of loss of consciousness. Seek medical attention immediately.';
-  return '🚨 Potentially fatal BAC. High risk of coma and respiratory arrest. Call 911 NOW.';
-}
- 
-function getRecommendationText(bac, age) {
-  const under21 = (age === 'Under 21');
-  if (bac < 0.01) {
-    return 'No alcohol detected. If you feel well, you should be safe to drive.';
+
+function initDrinkRows() {
+  const container = document.getElementById('drink-rows');
+  if (container.children.length === 0) {
+    drinkRowCount = 0;
+    container.appendChild(makeDrinkRow(drinkRowCount++));
   }
-  if (bac < 0.055) {
-    if (under21) return `You are underage — any BAC above 0.01% is legally impaired in most states. Wait at least ${Math.ceil(bac / 0.015)} hour(s) or call a rideshare.`;
-    return 'Below the 0.08% legal limit. You may feel slightly affected — if in doubt, don\'t drive.';
-  }
-  if (bac < 0.08) {
-    if (under21) return `You are underage — this is above the legal limit for you. Wait at least ${Math.ceil(bac / 0.015)} hour(s) or call a rideshare.`;
-    return 'Approaching the 0.08% legal limit. Exercise caution. Consider a rideshare if you have any doubts.';
-  }
-  const waitH = Math.ceil((bac - 0.07) / 0.015);
-  if (under21) return `Above both the 0.08% and underage limits. Do NOT drive. Call a rideshare or wait at least ${waitH} hour(s).`;
-  return `Above the legal limit. Do NOT drive. Call a rideshare or wait at least ${waitH} hour(s) before getting behind the wheel.`;
 }
- 
+
+document.getElementById('btn-add-row').addEventListener('click', () => {
+  document.getElementById('drink-rows').appendChild(makeDrinkRow(drinkRowCount++));
+});
+
+document.getElementById('drink-rows').addEventListener('click', e => {
+  const btn = e.target.closest('.remove-btn');
+  if (!btn) return;
+  const container = document.getElementById('drink-rows');
+  if (container.children.length <= 1) return;
+  document.querySelector(`.drink-row[data-id="${btn.dataset.id}"]`).remove();
+});
+
+document.getElementById('btn-use-tracker').addEventListener('click', () => {
+  setTrackerTimeNow(); showScreen('screen-tracker');
+});
+
 document.getElementById('btn-calculate').addEventListener('click', () => {
-  const weight = parseFloat(document.getElementById('weight').value);
-  const drinks = parseFloat(document.getElementById('drinkNumber').value);
-  const hours  = parseFloat(document.getElementById('hours').value) || 0;
-  const sex    = document.getElementById('sex').value;
-  const age    = document.getElementById('ageDropdown').value;
-  const drink  = document.getElementById('drinkNameDropdown').value;
- 
-  if (!weight || weight < 50 || !drinks) {
-    alert('Please enter your weight and number of drinks.');
-    return;
-  }
- 
-  const bac = calcBAC(weight, drinks, hours, sex, drink);
-  renderResult(bac, age, drinks, drink);
+  const weight = parseFloat(document.getElementById('bac-weight').value);
+  const hours  = parseFloat(document.getElementById('bac-hours').value) || 0;
+  const sex    = document.getElementById('bac-sex').value;
+  const age    = document.getElementById('bac-age').value;
+
+  if (!weight || weight < 50) { alert('Please enter your weight.'); return; }
+
+  let totalPureAlc = 0, totalDrinks = 0;
+  document.querySelectorAll('.drink-row').forEach(row => {
+    const type = row.querySelector('.dr-type').value;
+    const qty  = parseFloat(row.querySelector('.dr-qty').value) || 0;
+    totalDrinks += qty;
+    totalPureAlc += qty * getDrinkAlcohol(type);
+  });
+
+  if (totalDrinks === 0) { alert('Please enter at least one drink.'); return; }
+
+  const bac = computeBAC(totalPureAlc, weight, sex, hours);
+  renderResult(bac, age, totalDrinks);
   showScreen('screen-result');
 });
- 
-function renderResult(bac, age, drinks, drinkType) {
-  const state = getBACState(bac);
-  const under21 = (age === 'Under 21');
- 
-  // Number
-  document.getElementById('bac-number').textContent = bac.toFixed(3);
-  document.getElementById('bac-number').className = 'bac-number ' + state;
- 
-  // Display glow
-  const disp = document.getElementById('bac-display');
-  disp.className = 'bac-display state-' + state;
- 
-  // Pill
-  const pill = document.getElementById('bac-pill');
-  const pillLabels = { green: '● Clear', yellow: '● Caution', red: '● Danger' };
-  pill.textContent = pillLabels[state];
-  pill.className = 'bac-status-pill pill-' + state;
- 
-  // Tiles
-  const waitH = getWaitHours(bac, under21);
-  document.getElementById('tile-wait').textContent = waitH > 0 ? waitH + 'h' : '0h';
-  document.getElementById('tile-drinks').textContent = drinks;
-  const legalOK = under21 ? bac < 0.01 : bac < 0.08;
-  document.getElementById('tile-legal').textContent = legalOK ? '✓' : '✗';
-  document.getElementById('tile-legal').style.color = legalOK ? 'var(--green)' : 'var(--red)';
- 
-  // Wait bar
-  const pct = Math.min(100, (bac / 0.40) * 100);
-  document.getElementById('wait-label-right').textContent = waitH > 0 ? '~' + waitH + ' hrs to drive' : 'Safe to consider driving';
-  setTimeout(() => {
-    document.getElementById('wait-bar-fill').style.width = pct + '%';
-  }, 100);
- 
-  // Advice
-  document.getElementById('advice-rec').textContent = getRecommendationText(bac, age);
-  document.getElementById('advice-symptoms').textContent = getSymptomText(bac);
- 
-  // Emergency
-  const emBanner = document.getElementById('emergency-banner');
-  emBanner.classList.toggle('visible', bac >= 0.30);
+
+function computeBAC(pureAlcOz, weightLbs, sex, hours) {
+  const r = sex === 'Male' ? 0.73 : 0.66;
+  const raw = (pureAlcOz * 5.14) / (weightLbs * r) - 0.015 * hours;
+  return Math.max(0, Math.round(raw * 1000) / 1000);
 }
- 
+
+// ==========================================
+// RESULT RENDERING
+// ==========================================
+function renderResult(bac, age, totalDrinks) {
+  const under21 = age === 'Under 21';
+  const state = bac < 0.055 ? 'green' : bac < 0.08 ? 'yellow' : 'red';
+
+  document.getElementById('bac-hero').className = 'bac-hero s-' + state;
+  const valEl = document.getElementById('bac-val');
+  valEl.textContent = bac.toFixed(3);
+  valEl.className = 'bac-val ' + state;
+
+  const pill = document.getElementById('status-pill');
+  pill.textContent = { green: 'Clear', yellow: 'Caution', red: 'Danger' }[state];
+  pill.className = 'status-pill sp-' + state;
+
+  const legalBac = under21 ? 0.01 : 0.08;
+  const legalOK  = bac < legalBac;
+  const waitH    = bac <= legalBac ? 0 : Math.ceil((bac - (under21 ? 0 : 0.07)) / 0.015);
+
+  document.getElementById('st-wait').textContent = waitH > 0 ? waitH + 'h' : '< 1h';
+  document.getElementById('st-drinks').textContent = Number.isInteger(totalDrinks) ? totalDrinks : totalDrinks.toFixed(1);
+  const legalEl = document.getElementById('st-legal');
+  legalEl.textContent = legalOK ? 'Legal' : 'Over';
+  legalEl.style.color = legalOK ? 'var(--green)' : 'var(--red)';
+
+  const pct = Math.min(100, (bac / 0.40) * 100);
+  document.getElementById('burn-bar-label').textContent = waitH > 0 ? '~' + waitH + ' hrs to drive safely' : 'Safe to consider driving';
+  setTimeout(() => { document.getElementById('bar-fill').style.width = pct + '%'; }, 80);
+
+  document.getElementById('advice-rec').textContent = getAdvice(bac, age);
+  document.getElementById('advice-sym').textContent = getSymptoms(bac);
+  document.getElementById('emerg-banner').classList.toggle('show', bac >= 0.30);
+}
+
+function getAdvice(bac, age) {
+  const u21 = age === 'Under 21';
+  if (bac < 0.01) return 'No alcohol detected. If you feel well, you should be safe to drive.';
+  if (bac < 0.055) return u21
+    ? `You are underage — any BAC above 0.01% is legally impaired in most states. Wait at least ${Math.ceil(bac / 0.015)} hour(s) or call a rideshare.`
+    : 'Below the 0.08% legal limit. You may feel slightly affected — if in doubt, take a rideshare.';
+  if (bac < 0.08) return u21
+    ? `You are underage — this is above the legal threshold for you. Wait at least ${Math.ceil(bac / 0.015)} hour(s) or call a rideshare.`
+    : 'Approaching the 0.08% legal limit. Consider a rideshare to be safe.';
+  const w = Math.ceil((bac - 0.07) / 0.015);
+  return u21
+    ? `Above both the 0.08% and underage limits. Do not drive. Call a rideshare or wait at least ${w} hour(s).`
+    : `Above the legal limit. Do not drive. Call a rideshare or wait at least ${w} hour(s).`;
+}
+
+function getSymptoms(bac) {
+  if (bac === 0)   return 'No alcohol in blood. You are sober.';
+  if (bac <= 0.02) return 'Mild relaxation, slight mood alteration, minimal impairment.';
+  if (bac <= 0.05) return 'Lowered alertness, reduced inhibition, mildly impaired judgment.';
+  if (bac <= 0.08) return 'Reduced coordination, impaired judgment and reasoning, harder to detect danger.';
+  if (bac <= 0.10) return 'Slower reaction time, slurred speech, slowed thinking.';
+  if (bac <= 0.15) return 'Mood changes, nausea, loss of balance, some muscle control impaired.';
+  if (bac <= 0.30) return 'Confusion, vomiting, drowsiness. Seek medical attention if symptoms worsen.';
+  if (bac < 0.40)  return 'Likely alcohol poisoning. Risk of loss of consciousness. Seek medical attention immediately.';
+  return 'Potentially fatal BAC. High risk of coma and respiratory failure. Call 911 now.';
+}
+
 document.getElementById('btn-recalc').addEventListener('click', () => showScreen('screen-bac'));
 document.getElementById('btn-recalc2').addEventListener('click', () => showScreen('screen-bac'));
- 
-// ===========================
+
+// ==========================================
 // DRINK TRACKER
-// ===========================
+// ==========================================
 let drinkLog = [];
- 
-function logEmoji(name) {
-  if (['White Wine','Red Wine','Rosé'].includes(name)) return '🍷';
-  if (name === 'Champagne') return '🥂';
-  if (['Light Beer','Regular Beer','Micro Brew','IPA','Hard Cider','Hard Seltzer'].includes(name)) return '🍺';
-  if (['Margarita','Long Island','Spiked Punch'].includes(name)) return '🍹';
-  return '🥃';
+
+function nowTimeStr() {
+  const now = new Date();
+  return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
 }
- 
-function renderDrinkLog() {
-  const list = document.getElementById('drink-log-list');
-  const empty = document.getElementById('log-empty');
- 
-  // Clear
-  list.querySelectorAll('.drink-log-item').forEach(el => el.remove());
- 
+function setTrackerTimeNow() {
+  document.getElementById('tracker-time').value = nowTimeStr();
+}
+
+function renderLog() {
+  const body   = document.getElementById('log-body');
+  const empty  = document.getElementById('log-empty');
+  const summary = document.getElementById('log-summary');
+  const existing = body.querySelector('table');
+  if (existing) existing.remove();
+
   if (drinkLog.length === 0) {
     empty.style.display = '';
-  } else {
-    empty.style.display = 'none';
-    drinkLog.forEach((item, i) => {
-      const el = document.createElement('div');
-      el.className = 'drink-log-item';
-      el.innerHTML = `
-        <div>
-          <div class="di-name">${logEmoji(item.name)} ${item.name}</div>
-          <div class="di-time">${item.time}</div>
-        </div>
-        <button class="di-remove" data-i="${i}" title="Remove">✕</button>
-      `;
-      list.appendChild(el);
-    });
+    summary.style.display = 'none';
+    return;
   }
- 
-  // Totals
+  empty.style.display = 'none';
+  const table = document.createElement('table');
+  table.className = 'log-table';
+  table.innerHTML = `<thead><tr><th>Drink</th><th>Time</th><th></th></tr></thead><tbody></tbody>`;
+  const tbody = table.querySelector('tbody');
+  drinkLog.forEach((item, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-name">${item.name}</td>
+      <td class="td-time">${item.time}</td>
+      <td class="td-action"><button class="rm-btn" data-i="${i}">Remove</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  body.appendChild(table);
+  summary.style.display = 'flex';
   document.getElementById('log-count').textContent = drinkLog.length;
-  const totalAlc = drinkLog.reduce((sum, d) => {
-    const info = DRINKS[d.name];
-    return sum + (info ? info.size * info.pct / 100 : 0);
-  }, 0);
-  document.getElementById('log-alcohol').textContent = totalAlc.toFixed(1) + ' oz';
+  const totalAlc = drinkLog.reduce((s, d) => s + getDrinkAlcohol(d.name), 0);
+  document.getElementById('log-alc').textContent = totalAlc.toFixed(1) + ' oz';
 }
- 
-document.getElementById('btn-log-drink').addEventListener('click', () => {
-  const name = document.getElementById('tracker-drink').value;
-  const now = new Date();
-  const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  drinkLog.push({ name, time });
-  renderDrinkLog();
-});
- 
-document.getElementById('drink-log-list').addEventListener('click', e => {
-  const btn = e.target.closest('.di-remove');
+
+document.getElementById('log-body').addEventListener('click', e => {
+  const btn = e.target.closest('.rm-btn');
   if (!btn) return;
   drinkLog.splice(parseInt(btn.dataset.i), 1);
-  renderDrinkLog();
+  renderLog();
 });
- 
+
+document.getElementById('btn-log-drink').addEventListener('click', () => {
+  const name = document.getElementById('tracker-type').value;
+  const timeEl = document.getElementById('tracker-time');
+  const time = timeEl.value || nowTimeStr();
+  drinkLog.push({ name, time });
+  renderLog();
+  setTrackerTimeNow(); // reset for next entry
+});
+
 document.getElementById('btn-clear-log').addEventListener('click', () => {
-  if (drinkLog.length > 0 && confirm('Clear all logged drinks?')) {
-    drinkLog = [];
-    renderDrinkLog();
-  }
+  if (drinkLog.length === 0) return;
+  if (confirm('Clear all logged drinks?')) { drinkLog = []; renderLog(); }
 });
- 
-// ===========================
-// DRIVER PICKER
-// ===========================
+
+// Calculate BAC from tracker — pre-fills the BAC screen
+document.getElementById('btn-calc-from-tracker').addEventListener('click', () => {
+  if (drinkLog.length === 0) { alert('No drinks logged yet.'); return; }
+
+  // Build BAC screen drink rows aggregated by type
+  const container = document.getElementById('drink-rows');
+  while (container.firstChild) container.removeChild(container.firstChild);
+  drinkRowCount = 0;
+
+  const agg = {};
+  drinkLog.forEach(d => { agg[d.name] = (agg[d.name] || 0) + 1; });
+  Object.entries(agg).forEach(([name, qty]) => {
+    const row = makeDrinkRow(drinkRowCount++);
+    container.appendChild(row);
+    const opt = Array.from(row.querySelector('.dr-type').options).find(o => o.value === name);
+    if (opt) row.querySelector('.dr-type').value = name;
+    row.querySelector('.dr-qty').value = qty;
+  });
+
+  // Auto-compute elapsed hours from earliest logged time to now
+  const times = drinkLog.map(d => { const [h,m] = d.time.split(':').map(Number); return h*60+m; });
+  const earliestMin = Math.min(...times);
+  const now = new Date();
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  const diffH = Math.max(0, (nowMin - earliestMin) / 60);
+  document.getElementById('bac-hours').value = diffH.toFixed(1);
+
+  showScreen('screen-bac');
+});
+
+setTrackerTimeNow();
+
+// ==========================================
+// DESIGNATED DRIVER PICKER
+// ==========================================
 let driverList = [];
- 
-function renderDriverList() {
-  const container = document.getElementById('names-list');
-  container.innerHTML = '';
+
+function renderChips() {
+  const wrap = document.getElementById('chips-wrap');
+  wrap.innerHTML = '';
   if (driverList.length === 0) {
-    container.innerHTML = '<span class="names-empty">Add names above to get started.</span>';
+    wrap.innerHTML = '<span class="chips-empty">No names added yet.</span>';
   } else {
     driverList.forEach((name, i) => {
       const chip = document.createElement('div');
-      chip.className = 'name-chip';
+      chip.className = 'chip';
       chip.innerHTML = `<span>${name}</span><button data-i="${i}" title="Remove">✕</button>`;
-      container.appendChild(chip);
+      wrap.appendChild(chip);
     });
   }
-  document.getElementById('driver-count').textContent = driverList.length + (driverList.length === 1 ? ' person' : ' people');
+  document.getElementById('driver-count').textContent = '— ' + driverList.length + (driverList.length === 1 ? ' person' : ' people');
 }
- 
-document.getElementById('btn-add-driver').addEventListener('click', () => {
-  const input = document.getElementById('driver-name-input');
+
+document.getElementById('btn-add-name').addEventListener('click', () => {
+  const input = document.getElementById('driver-input');
   const name = input.value.trim();
   if (name && !driverList.includes(name)) {
     driverList.push(name);
-    renderDriverList();
-    input.value = '';
-    document.getElementById('winner-card').classList.add('hidden');
+    renderChips();
+    document.getElementById('winner-wrap').classList.remove('show');
   }
-  input.focus();
+  input.value = ''; input.focus();
 });
- 
-document.getElementById('driver-name-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('btn-add-driver').click();
+document.getElementById('driver-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('btn-add-name').click();
 });
- 
-document.getElementById('names-list').addEventListener('click', e => {
+document.getElementById('chips-wrap').addEventListener('click', e => {
   const btn = e.target.closest('button');
-  if (!btn || !btn.dataset.i) return;
+  if (!btn || btn.dataset.i === undefined) return;
   driverList.splice(parseInt(btn.dataset.i), 1);
-  renderDriverList();
-  document.getElementById('winner-card').classList.add('hidden');
+  renderChips();
+  document.getElementById('winner-wrap').classList.remove('show');
 });
- 
-document.getElementById('btn-pick-driver').addEventListener('click', () => {
+document.getElementById('btn-pick').addEventListener('click', () => {
   if (driverList.length === 0) { alert('Add at least one name first.'); return; }
   const winner = driverList[Math.floor(Math.random() * driverList.length)];
+  const ww = document.getElementById('winner-wrap');
   document.getElementById('winner-name').textContent = winner;
-  const card = document.getElementById('winner-card');
-  card.classList.remove('hidden');
-  card.style.animation = 'none';
-  requestAnimationFrame(() => { card.style.animation = ''; });
+  ww.classList.remove('show');
+  requestAnimationFrame(() => ww.classList.add('show'));
 });
- 
-document.getElementById('btn-restart-driver').addEventListener('click', () => {
+document.getElementById('btn-reset-driver').addEventListener('click', () => {
   driverList = [];
-  renderDriverList();
-  document.getElementById('winner-card').classList.add('hidden');
-  document.getElementById('driver-name-input').value = '';
+  renderChips();
+  document.getElementById('winner-wrap').classList.remove('show');
+  document.getElementById('driver-input').value = '';
 });
 </script>
 </body>
