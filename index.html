@@ -86,26 +86,41 @@
     </div>
 
     <div id="screen1" style="display: none;">
-        <h2>Enter Information</h2>
-        <select id="sex"><option>Male</option><option>Female</option></select>
+        <h2>ENTER INFORMATION</h2>
+        
+        <select id="sex">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        
         <select id="drinkNameDropdown">
             <option>What Were You Drinking?</option>
-            <option>Light Beer</option><option>Regular Beer</option><option>Micro Brew</option>
-            <option>White Wine</option><option>Red Wine</option><option>80 Proof (A Shot)</option>
-            <option>Vodka</option><option>Whiskey</option><option>Tequila</option>
-            <option>Gin</option><option>Rum</option>
+            <option>Light Beer</option>
+            <option>Regular Beer</option>
+            <option>Micro Brew</option>
+            <option>White Wine</option>
+            <option>Red Wine</option>
+            <option>80 Proof (A Shot)</option>
+            <option>Vodka</option>
+            <option>Whiskey</option>
+            <option>Tequila</option>
+            <option>Gin</option>
+            <option>Rum</option>
         </select>
+
         <input type="number" id="drinkNumber" placeholder="Number of Drinks?">
         <input type="number" id="ouncesDropdown" placeholder="Ounces per drink (optional)?">
         <input type="number" id="hours" placeholder="Hours since LAST drink?">
         <input type="number" id="weight" placeholder="Weight (lb)?">
+        
         <select id="ageDropdown">
             <option>I'm 21+ years old.</option>
             <option>I'm under 21</option>
         </select>
         
-        <button id="Go!" style="background-color: #55B4FF; font-size: 2rem; width: 95%;">Generate Report</button>
-        <button id="home" style="background: none; color: #555; font-size: 1rem;">Back</button>
+        <button id="Go!">Generate Report</button>
+        <br>
+        <button id="home" style="background: none; color: #555; font-size: 1.2rem; width: auto; box-shadow: none;">Back</button>
     </div>
 
     <div id="screen2" style="display: none;">
