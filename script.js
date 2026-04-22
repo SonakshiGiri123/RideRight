@@ -1,4 +1,4 @@
-// --- 1. CORE TRANSLATOR FUNCTIONS ---
+// --- UTILITIES ---
 function setScreen(screenId) {
     document.getElementById("screen1").style.display = "none";
     document.getElementById("screen2").style.display = "none";
@@ -11,16 +11,17 @@ function getNumber(id) { return parseFloat(document.getElementById(id).value) ||
 function setText(id, text) { document.getElementById(id).innerText = text; }
 function setImageURL(id, url) { document.getElementById(id).src = url; }
 function onEvent(id, eventType, callback) { 
-    let el = document.getElementById(id); 
-    if(el) el.addEventListener(eventType, callback); 
+    let el = document.getElementById(id); if(el) el.addEventListener(eventType, callback); 
 }
 
-// --- 2. DATA LISTS ---
+// --- GLOBAL VARIABLES ---
 var drinkNamesList = ["Light Beer","Regular Beer","Micro Brew", "White Wine","Red Wine","80 Proof (A Shot)","Vodka","Whiskey","Tequila","Gin","Rum"];
 var drinkSizeList = [12, 12, 12, 5, 5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
-var alcoholPercentage = [4.2, 5, 7, 12, 15, 40, 40, 40, 40, 40, 40];
+var alchololPercentage = [4.2, 5, 7, 12, 15, 40, 40, 40, 40, 40, 40];
+var bloodAlchoholLevel = 0;
+var text = "";
 
-// --- 3. NAVIGATION & HOME ---
+// --- NAVIGATION ---
 onEvent("BACcalculator", "click", function() { setScreen("screen1"); });
 onEvent("DesignatedDriverPicker", "click", function() { setScreen("screen4"); });
 onEvent("home", "click", function() { setScreen("screen3"); });
@@ -28,13 +29,13 @@ onEvent("toHome", "click", function() { setScreen("screen3"); });
 onEvent("toHome4", "click", function() { setScreen("screen3"); });
 
 onEvent("BAC?", "click", function() {
-  setText("questionmark", "Our BAC calculator will estimate your blood alcohol content and how long to wait. This is not medical advice.");
+  setText("questionmark", "Our BAC calculator will estimate your blood alcohol content & how long to wait, and symptoms. This is not medical advice.");
 });
 onEvent("driverPicker?", "click", function() {
-  setText("questionmark", "Our Designated Driver Picker is a fair way to choose who stays sober.");
+  setText("questionmark", "Our Designated Driver Picker is a fair way to choose who stays sober! :).");
 });
 
-// --- 4. DESIGNATED DRIVER PICKER ---
+// --- DESIGNATED DRIVER PICKER ---
 var listOfPeople = [];
 onEvent("add", "click", function() {
     var name = getText("text_input1");
@@ -58,47 +59,85 @@ onEvent("restart", "click", function() {
     setText("driverName", "None selected");
 });
 
-// --- 5. BAC CALCULATION LOGIC ---
+// --- BAC LOGIC ---
 onEvent("Go!", "click", function() {
     var weight = getNumber("weight");
     var drinks = getNumber("drinkNumber");
     var hours = getNumber("hours");
     var gender = getText("sex");
-    var age = getText("ageDropdown");
     var selection = getText("drinkNameDropdown");
 
-    // Calculate Pure Alcohol Ounces
     var pureAlcohol = 0;
     for (var i = 0; i < drinkNamesList.length; i++) {
         if (drinkNamesList[i] === selection) {
-            pureAlcohol = (drinks * drinkSizeList[i]) * (alcoholPercentage[i] / 100);
+            pureAlcohol = (drinks * drinkSizeList[i] * alchololPercentage[i]) / 100;
         }
     }
 
     var r = (gender === "Male") ? 0.73 : 0.66;
-    var bac = ((pureAlcohol * 5.14) / (weight * r)) - (0.015 * hours);
-    if (bac < 0) bac = 0;
+    bloodAlchoholLevel = ((pureAlcohol * 5.14) / (weight * r)) - (0.015 * hours);
+    bloodAlchoholLevel = Math.max(0, Math.round(bloodAlchoholLevel * 100) / 100);
 
-    // Set text and images
-    setText("estimatedBAC", bac.toFixed(3));
-    var advice = "";
-    var limit = (age === "Under 21") ? 0.01 : 0.08;
-
-    if (bac === 0) {
-        advice = "You are sober. No alcohol detected.";
-        setImageURL("image1", "go.png");
-    } else if (bac >= limit) {
-        var wait = Math.ceil(bac / 0.015);
-        advice = "DANGER: You are at or above the legal limit. Wait at least " + wait + " hour(s) or call a ride.";
-        setImageURL("image1", "stop.png");
-    } else if (bac > 0.02) {
-        advice = "CAUTION: You have alcohol in your system. Reaction times are slowed.";
-        setImageURL("image1", "moderate.png");
-    } else {
-        advice = "SAFE: You are currently under the limit. Drive carefully.";
-        setImageURL("image1", "go.png");
-    }
-
-    setText("advice", advice);
+    setText("estimatedBAC", bloodAlchoholLevel);
+    setTextReport();
+    setBACDescription();
     setScreen("screen2");
 });
+
+function setTextReport() {
+    var stopSign = "stop.png";
+    var moderate = "moderate.png";
+    var go = "go.png";
+    var age = getText("ageDropdown");
+
+    if (bloodAlchoholLevel < 0.01) {
+        text = "Our Recommendation: If you feel good, you should be good to drive!";
+        setImageURL("image1", go);
+    } else if (bloodAlchoholLevel < 0.055) {
+        if (age == "Under 21") {
+            text = "Our Recommendation: Because you're underage, anything above 0.01 is considered 'legally impaired'. Call a cab or wait atleast " + Math.round(bloodAlchoholLevel/0.015) + " hours before driving.";
+            setImageURL("image1", stopSign);
+        } else {
+            text = "Our Recommendation: The legal limit is 0.08, so If you feel good, you should be good to drive!";
+            setImageURL("image1", go);
+        }
+    } else if (bloodAlchoholLevel < 0.08) {
+        if (age == "Under 21") {
+            text = "Our Recommendation: Because you're underage, anything above 0.01 is considered 'legally impaired'. Call a cab or wait atleast " + Math.round(bloodAlchoholLevel/0.015) + " hour(s) before driving.";
+            setImageURL("image1", stopSign);
+        } else {
+            text = "Our Recommendation: This is relatively close to the legal limit of 0.08, be cautious of driving.";
+            setImageURL("image1", moderate);
+        }
+    } else {
+        if (age == "Under 21") {
+            text = "Our Recommendation: This is at or above the general legal limit of 0.08 and 0.01 for those underage. Call a cab or wait atleast " + Math.round(bloodAlchoholLevel/0.015) + " hours before driving!";
+        } else {
+            text = "Our Recommendation: This is at or above the legal limit of 0.08. Call a cab or wait atleast " + Math.round((bloodAlchoholLevel-0.07)/0.015) + " hours before driving!";
+        }
+        setImageURL("image1", stopSign);
+    }
+}
+
+function setBACDescription() {
+    if (bloodAlchoholLevel == 0) {
+        text += "\n\nA blood alcohol level of 0% shows there’s no alcohol in your blood (you’re sober).";
+    } else if (bloodAlchoholLevel <= 0.02) {
+        text += "\n\nAt a BAC of 0.01%-0.02% you may experience an altered mood, 'relaxation' and a slight loss of judgment.";
+    } else if (bloodAlchoholLevel <= 0.05) {
+        text += "\n\nAt a BAC of 0.03%-0.05% you may feel uninhibited and have lowered alertness and impaired judgment.";
+    } else if (bloodAlchoholLevel <= 0.08) {
+        text += "\n\nAt a BAC of 0.06%-0.08%, you may have reduced muscle coordination, find it more difficult to detect danger and have impaired judgment and reasoning.";
+    } else if (bloodAlchoholLevel <= 0.1) {
+        text += "\n\nAt a BAC of 0.09%-0.1%, you may have a reduced reaction time, slurred speech and slowed thinking.";
+    } else if (bloodAlchoholLevel <= 0.15) {
+        text += "\n\nAt a BAC of 0.11%-0.15%, you may experience an altered mood, nausea and vomiting and loss of balance and some muscle control.";
+    } else if (bloodAlchoholLevel <= 0.3) {
+        text += "\n\nAt a BAC of 0.16% - 0.3%, you may experience confusion, vomiting and drowsiness. If these symptoms worsen, consider getting medical attention!";
+    } else if (bloodAlchoholLevel < 0.4) {
+        text += "\n\nAt a BAC of 0.31%-0.39%, you’ll likely have alcohol poisoning, a potentially life-threatening condition, and experience loss of consciousness, consider getting medical attention!";
+    } else {
+        text += "\n\nA BAC of 0.4+% is a potentially fatal blood alcohol level. You’re at risk of coma and death from respiratory arrest (absence of breathing), consider getting medical attention!";
+    }
+    setText("advice", text);
+}
