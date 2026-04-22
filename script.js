@@ -204,3 +204,21 @@ onEvent("home", "click", function() {
 onEvent("Go!", "click", function() {
   setScreen("screen2");
 });
+
+onEvent("toHome", "click", function() {
+  setScreen("screen3");
+});
+
+onEvent("toHome4", "click", function() {
+  setScreen("screen3");
+});
+
+onEvent("home", "click", function() {
+  setScreen("screen3");
+});
+
+onEvent("restart", "click", function() {
+  setText("people", "No names yet...");
+  setText("label6", "The driver is: ...");
+  // If you have a list variable for names, clear it here too!
+});
