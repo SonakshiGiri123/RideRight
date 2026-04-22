@@ -173,6 +173,28 @@
         <button id="Choose" class="btn-main">Random Pick!</button>
         <h3 id="label6">The driver is: <span style="color: var(--primary);">...</span></h3>
     </div>
+<div id="screen5" style="display: none;">
+    <div style="text-align: right;">
+        <button id="toHome5" class="icon-btn"><i class="fas fa-house"></i></button>
+    </div>
+    <h2>VisionScan AI</h2>
+    <p class="subtitle">Focus on the movement</p>
+    
+    <div class="card" style="background: #1C1C1E; height: 300px; position: relative; overflow: hidden; border: 1px solid #3A3A3C;">
+        <div id="eyeDot" style="width: 24px; height: 24px; background: #007AFF; border-radius: 50%; position: absolute; top: 50%; left: 45%; display: none; box-shadow: 0 0 20px rgba(0,122,255,0.8);"></div>
+        
+        <div id="scanOverlay" style="color: #FFFFFF; padding-top: 80px;">
+            <i class="fas fa-eye" style="font-size: 3rem; margin-bottom: 15px; color: #007AFF;"></i>
+            <p id="scanStatus" style="font-weight: 600;">Ready for Gaze Stability Test?</p>
+            <button id="startScan" class="btn-main" style="width: 70%; margin-top: 20px;">Start Calibration</button>
+        </div>
+    </div>
+    
+    <div id="scanResults" class="card" style="display: none; text-align: left; border-left: 5px solid #007AFF;">
+        <h4 id="visionScore" style="margin: 0; font-size: 1.2rem;">Stability Score: --</h4>
+        <p id="visionAdvice" style="font-size: 0.9rem; margin-top: 8px; color: #8E8E93;"></p>
+    </div>
+</div>
 </div>
 
 <script src="script.js"></script>
