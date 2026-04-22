@@ -80,7 +80,6 @@
             box-sizing: border-box;
         }
 
-        /* Black Icon Styles */
         .icon-btn { 
             background: none; 
             border: none; 
@@ -106,6 +105,14 @@
             text-align: left;
             margin-bottom: 20px;
         }
+
+        #questionmark {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            padding: 10px;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
@@ -120,10 +127,11 @@
             <button id="BAC?" class="btn-q">?</button>
         </div>
         <div class="btn-row">
-            <button id="DesignatedDriverPicker" class="btn-main">Driver Picker</button>
+            <button id="DesignatedDriverPicker" class="btn-main">Designated Driver Picker</button>
             <button id="driverPicker?" class="btn-q">?</button>
         </div>
         <img src="blue_car.png" style="width:100%; border-radius:15px; margin-top:20px;">
+        <div id="questionmark"></div>
     </div>
 
     <div id="screen1" style="display: none;">
@@ -131,8 +139,17 @@
         <div class="card">
             <select id="sex"><option>Male</option><option>Female</option></select>
             <select id="drinkNameDropdown">
-                <option>Select Drink Type</option>
-                <option>Light Beer</option><option>Regular Beer</option><option>Wine</option><option>Liquor</option>
+                <option>Light Beer</option>
+                <option>Regular Beer</option>
+                <option>Micro Brew</option>
+                <option>White Wine</option>
+                <option>Red Wine</option>
+                <option>80 Proof (A Shot)</option>
+                <option>Vodka</option>
+                <option>Whiskey</option>
+                <option>Tequila</option>
+                <option>Gin</option>
+                <option>Rum</option>
             </select>
             <input type="number" id="drinkNumber" placeholder="Number of Drinks">
             <input type="number" id="hours" placeholder="Hours since last drink">
@@ -140,7 +157,7 @@
             <select id="ageDropdown"><option>21+ Years Old</option><option>Under 21</option></select>
         </div>
         <button id="Go!" class="btn-main">Generate Report</button>
-        <button id="home" class="icon-btn" style="font-size: 1rem;">← Back</button>
+        <button id="home" class="btn-main" style="background: var(--accent); color: var(--text);">Back</button>
     </div>
 
     <div id="screen2" style="display: none;">
@@ -162,39 +179,18 @@
             <button id="restart" class="icon-btn"><i class="fas fa-redo"></i></button>
             <button id="toHome4" class="icon-btn"><i class="fas fa-home"></i></button>
         </div>
-        <h2>Driver Picker</h2>
+        <h2>Designated Driver Picker</h2>
         <div class="card">
             <div style="display: flex; gap: 10px;">
                 <input type="text" id="text_input1" placeholder="Enter name" style="margin:0;">
                 <button id="add" class="btn-main" style="width: 80px; padding: 10px; margin:0;">Add</button>
             </div>
         </div>
-        <div id="people">No names yet...</div>
+        <div id="people">No names yet</div>
         <button id="Choose" class="btn-main">Random Pick!</button>
-        <h3 id="label6">The driver is: <span style="color: var(--primary);">...</span></h3>
+        <h3 id="label6">The designated driver is: <span id="driverName" style="color: var(--primary);">None selected</span></h3>
     </div>
-<div id="screen5" style="display: none;">
-    <div style="text-align: right;">
-        <button id="toHome5" class="icon-btn"><i class="fas fa-house"></i></button>
-    </div>
-    <h2>VisionScan AI</h2>
-    <p class="subtitle">Focus on the movement</p>
-    
-    <div class="card" style="background: #1C1C1E; height: 300px; position: relative; overflow: hidden; border: 1px solid #3A3A3C;">
-        <div id="eyeDot" style="width: 24px; height: 24px; background: #007AFF; border-radius: 50%; position: absolute; top: 50%; left: 45%; display: none; box-shadow: 0 0 20px rgba(0,122,255,0.8);"></div>
-        
-        <div id="scanOverlay" style="color: #FFFFFF; padding-top: 80px;">
-            <i class="fas fa-eye" style="font-size: 3rem; margin-bottom: 15px; color: #007AFF;"></i>
-            <p id="scanStatus" style="font-weight: 600;">Ready for Gaze Stability Test?</p>
-            <button id="startScan" class="btn-main" style="width: 70%; margin-top: 20px;">Start Calibration</button>
-        </div>
-    </div>
-    
-    <div id="scanResults" class="card" style="display: none; text-align: left; border-left: 5px solid #007AFF;">
-        <h4 id="visionScore" style="margin: 0; font-size: 1.2rem;">Stability Score: --</h4>
-        <p id="visionAdvice" style="font-size: 0.9rem; margin-top: 8px; color: #8E8E93;"></p>
-    </div>
-</div>
+
 </div>
 
 <script src="script.js"></script>
