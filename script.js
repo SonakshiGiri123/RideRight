@@ -21,9 +21,9 @@ function randomNumber(min, max) { return Math.floor(Math.random() * (max - min +
 setScreen("screen3");
 
 // NOTE: You will need to upload these images to your GitHub repository for them to show up!
-var stopSign = "stop-sign.jpeg";
-var moderate = "Screenshot-2025-02-27-at-11.50.06-PM.png";
-var go = "go.jpg";
+var stopSign = "Screenshot 2026-04-21 at 9.40.46 PM.png";//stop
+var moderate = "Screenshot 2026-04-21 at 9.40.16 PM.png";//mid
+var go = "/Screenshot 2026-04-21 at 9.40.39 PM.png"; //go
 
 onEvent("BAC?", "click", function() {
   setText("questionmark", "Our BAC calculator will estimate your blood alcohol content & how long to wait, and symptoms. This is not medical advice.");
