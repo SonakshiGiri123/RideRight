@@ -222,3 +222,55 @@ onEvent("restart", "click", function() {
   setText("label6", "The driver is: ...");
   // If you have a list variable for names, clear it here too!
 });
+
+// Navigation
+onEvent("toVision", "click", function() { setScreen("screen5"); });
+onEvent("toHome5", "click", function() { setScreen("screen3"); });
+
+var hits = 0;
+var totalMoves = 0;
+
+onEvent("startScan", "click", function() {
+  hideElement("scanOverlay");
+  showElement("eyeDot");
+  hits = 0;
+  totalMoves = 0;
+  
+  // High-speed tracking sequence
+  var scanInterval = setInterval(function() {
+    var x = Math.random() * 80 + 5; 
+    var y = Math.random() * 80 + 5; 
+    setPosition("eyeDot", x + "%", y + "%");
+    totalMoves++;
+    
+    if (totalMoves >= 12) { 
+      clearInterval(scanInterval);
+      endVisionScan();
+    }
+  }, 750); // Moves every 0.75 seconds
+});
+
+onEvent("eyeDot", "click", function() {
+  hits++;
+  // Visual feedback for a "hit"
+  setProperty("eyeDot", "background-color", "#5AC8FA");
+  setTimeout(function() { setProperty("eyeDot", "background-color", "#007AFF"); }, 100);
+});
+
+function endVisionScan() {
+  hideElement("eyeDot");
+  showElement("scanOverlay");
+  showElement("scanResults");
+  setText("scanStatus", "Assessment Complete");
+  
+  var accuracy = Math.round((hits / 12) * 100);
+  setText("visionScore", "Stability Score: " + accuracy + "%");
+  
+  if (accuracy < 75) {
+    setText("visionAdvice", "Result: Impairment likely. Significant gaze instability detected. Do not operate a vehicle.");
+    setProperty("visionScore", "color", "#FF3B30"); // System Red
+  } else {
+    setText("visionAdvice", "Result: Normal range. Visual tracking appears stable. Please remain cautious.");
+    setProperty("visionScore", "color", "#34C759"); // System Green
+  }
+}
