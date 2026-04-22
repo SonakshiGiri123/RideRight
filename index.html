@@ -1,63 +1,164 @@
-<div id="screen3" class="card" style="display: block;">
-    <h1>RideRight</h1>
-    <p>Someone's waiting for you; Drive like it.</p>
-    
-    <button id="BAC?" style="padding: 5px; margin: 5px;">What is BAC?</button>
-    <button id="driverPicker?" style="padding: 5px; margin: 5px;">What is the Driver Picker?</button>
-    <p id="questionmark" style="font-style: italic; color: gray;"></p>
-    
-    <button id="BACcalculator" style="padding: 10px; margin: 10px; background: var(--cac-navy); color: white;">BAC Calculator</button>
-    <button id="DesignatedDriverPicker" style="padding: 10px; margin: 10px; background: var(--cac-navy); color: white;">Designated Driver Picker</button>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideRight | Sonakshi Giri</title>
+    <style>
+        /* This section makes it look exactly like your original app */
+        body {
+            background-color: #C1E7FF; /* The light blue background from your images */
+            font-family: "Arial Black", "Arial", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 20px;
+            color: #000;
+        }
 
-<div id="screen1" class="card" style="display: none;">
-    <h2>Enter Information</h2>
-    <select id="sex"><option>Male</option><option>Female</option></select>
-    
-    <select id="drinkNameDropdown">
-        <option>Light Beer</option><option>Regular Beer</option><option>Micro Brew</option>
-        <option>White Wine</option><option>Red Wine</option><option>80 Proof (A Shot)</option>
-        <option>Vodka</option><option>Whiskey</option><option>Tequila</option>
-        <option>Gin</option><option>Rum</option>
-    </select>
-    
-    <input type="number" id="ouncesDropdown" placeholder="Ounces per drink? (Optional)">
-    <input type="number" id="drinkNumber" placeholder="Number of Drinks?">
-    <input type="number" id="hours" placeholder="Hours since LAST drink?">
-    <input type="number" id="weight" placeholder="Weight (lb)?">
-    
-    <select id="ageDropdown">
-        <option>I'm 21+ years old.</option>
-        <option>I'm under 21</option>
-    </select>
-    
-    <button id="Go!" style="padding: 10px; margin-top: 10px; background: var(--cac-red); color: white;">Generate Report</button>
-    <button id="home" style="padding: 10px;">Back to Home</button>
-</div>
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            padding: 20px;
+        }
 
-<div id="screen2" class="card" style="display: none;">
-    <h2>REPORT</h2>
-    <div style="text-align: center;">
-        <img id="image1" src="" alt="Status Indicator" style="width: 150px; margin-bottom: 15px;">
+        h1 { font-size: 3rem; margin-bottom: 0; }
+        h2 { font-size: 2rem; margin-top: 0; text-transform: uppercase; }
+        p { font-size: 1.1rem; margin-bottom: 20px; }
+
+        /* THE BLUE BUTTONS */
+        button {
+            background-color: #55B4FF; 
+            color: white;
+            border: none;
+            border-radius: 15px; /* Rounded corners */
+            padding: 15px;
+            font-size: 1.5rem;
+            font-family: "Arial Black", sans-serif;
+            width: 85%;
+            margin: 10px 0;
+            cursor: pointer;
+            box-shadow: 0px 4px 4px rgba(0,0,0,0.1);
+        }
+
+        /* THE QUESTION MARK BUTTONS */
+        .q-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        /* FORM INPUTS */
+        input, select {
+            width: 85%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ffffff;
+            background-color: #E3F4FF;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+        }
+
+        /* REPORT BOX */
+        #advice {
+            background-color: #E3F4FF;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            min-height: 150px;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .home-icon {
+            float: right;
+            background: none;
+            color: black;
+            font-size: 2rem;
+            width: auto;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="screen3" style="display: block;">
+        <h1>RideRight</h1>
+        <p>Someone's waiting for you; Drive like it.</p>
+        
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <button id="BACcalculator">Blood Alcohol Content Calculator</button>
+            <button id="BAC?" class="q-btn">?</button>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <button id="DesignatedDriverPicker">Designated Driver Picker</button>
+            <button id="driverPicker?" class="q-btn">?</button>
+        </div>
+        
+        <p id="questionmark" style="font-size: 0.9rem; font-style: italic; color: #333; margin-top: 15px;"></p>
     </div>
-    <h3>Your Estimated BAC is: <span id="estimatedBAC">0.00</span></h3>
-    <p id="advice" style="background: #f0f0f0; padding: 15px; border-radius: 5px; line-height: 1.5;"></p>
-    <p style="font-size: 0.8rem; color: gray;">*This is an estimate, not medical or legal advice.</p>
-    <button id="toHome" style="padding: 10px;">Back to Home</button>
-</div>
 
-<div id="screen4" class="card" style="display: none;">
-    <h2>Designated Driver Picker</h2>
-    <input type="text" id="text_input1" placeholder="Enter a name...">
-    <button id="add" style="padding: 5px;">Add Person</button>
-    
-    <p id="people" style="margin-top: 15px; font-weight: bold;">In the draw is...</p>
-    
-    <button id="Choose" style="padding: 10px; margin-top: 15px; background: var(--cac-blue); color: white;">Choose Driver!</button>
-    <h3 id="label6" style="color: var(--cac-navy); margin-top: 15px;">The designated driver is:</h3>
-    
-    <button id="restart" style="padding: 10px; margin-top: 20px;">Restart List</button>
-    <button id="home" style="padding: 10px;">Back to Home</button>
+    <div id="screen1" style="display: none;">
+        <h2>Enter Information</h2>
+        <select id="sex"><option>Male</option><option>Female</option></select>
+        <select id="drinkNameDropdown">
+            <option>What Were You Drinking?</option>
+            <option>Light Beer</option><option>Regular Beer</option><option>Micro Brew</option>
+            <option>White Wine</option><option>Red Wine</option><option>80 Proof (A Shot)</option>
+            <option>Vodka</option><option>Whiskey</option><option>Tequila</option>
+            <option>Gin</option><option>Rum</option>
+        </select>
+        <input type="number" id="drinkNumber" placeholder="Number of Drinks?">
+        <input type="number" id="ouncesDropdown" placeholder="Ounces per drink (optional)?">
+        <input type="number" id="hours" placeholder="Hours since LAST drink?">
+        <input type="number" id="weight" placeholder="Weight (lb)?">
+        <select id="ageDropdown">
+            <option>I'm 21+ years old.</option>
+            <option>I'm under 21</option>
+        </select>
+        
+        <button id="Go!" style="background-color: #55B4FF; font-size: 2rem; width: 95%;">Generate Report</button>
+        <button id="home" style="background: none; color: #555; font-size: 1rem;">Back</button>
+    </div>
+
+    <div id="screen2" style="display: none;">
+        <button id="toHome" class="home-icon">🏠</button>
+        <h2 style="text-align: left;">REPORT</h2>
+        
+        <div id="image-container" style="background: #ccc; width: 100%; height: 200px; margin-bottom: 10px;">
+            <img id="image1" src="" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+
+        <h3>Your Estimated BAC is: <span id="estimatedBAC">0.00</span></h3>
+        <div id="advice">Our Recommendation:</div>
+    </div>
+
+    <div id="screen4" style="display: none;">
+        <button id="home" class="home-icon">🏠</button>
+        <h2>Designated Driver Picker</h2>
+        <div style="display: flex;">
+            <input type="text" id="text_input1" placeholder="Add a person to be part of the draw">
+            <button id="add" style="width: 80px; font-size: 1rem; margin-left: 5px;">Add</button>
+        </div>
+        
+        <h3 style="margin-top: 20px;">In the draw is....</h3>
+        <p id="people"></p>
+        
+        <button id="Choose" style="width: 60%;">Choose!</button>
+        <h3 id="label6">The designated driver is:</h3>
+        <button id="restart" style="background: none; font-size: 2rem; color: black; width: 50px;">↻</button>
+    </div>
 </div>
 
 <script src="script.js"></script>
+</body>
+</html>
