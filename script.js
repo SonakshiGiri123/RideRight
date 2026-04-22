@@ -175,3 +175,7 @@ function setBACDescription() {
   }
   setText("advice", text);
 }
+
+onEvent("toHome4", "click", function() {
+  setScreen("screen3");
+});
