@@ -6,27 +6,30 @@
 <title>RideRight</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink:    #0C0C0D;
-  --ink2:   #141416;
-  --ink3:   #1E1E21;
-  --ink4:   #2A2A2E;
-  --wire:   rgba(255,255,255,0.08);
-  --wire2:  rgba(255,255,255,0.13);
-  --chalk:  #F2F0EB;
-  --chalk2: #A0998C;
-  --chalk3: #5C5650;
-  --amber:  #F0A500;
-  --adim:   rgba(240,165,0,0.14);
-  --abord:  rgba(240,165,0,0.30);
-  --green:  #3ECF6A;
-  --gdim:   rgba(62,207,106,0.12);
-  --red:    #E84040;
-  --rdim:   rgba(232,64,64,0.12);
-  --blue:   #5B9CF6;
-  --r: 14px;
+  --ink:    #08101C;
+  --ink2:   #0D1828;
+  --ink3:   #152035;
+  --ink4:   #1C2A42;
+  --wire:   rgba(100,160,255,0.09);
+  --wire2:  rgba(100,160,255,0.16);
+  --chalk:  #E8EEF8;
+  --chalk2: #8FA4C8;
+  --chalk3: #4A6080;
+  --blue:   #4A90E8;
+  --blue2:  #6BAAFF;
+  --bdim:   rgba(74,144,232,0.12);
+  --bbord:  rgba(74,144,232,0.28);
+  --sky:    #A8CFFF;
+  --green:  #3ECFA0;
+  --gdim:   rgba(62,207,160,0.12);
+  --amber:  #F0B840;
+  --adim:   rgba(240,184,64,0.12);
+  --red:    #E85050;
+  --rdim:   rgba(232,80,80,0.12);
+  --r: 12px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; }
@@ -34,79 +37,92 @@ html { font-size: 16px; }
 body {
   background: var(--ink);
   color: var(--chalk);
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   min-height: 100dvh;
   display: flex;
   justify-content: center;
   overflow-x: hidden;
 }
 
-/* grain overlay */
 body::after {
   content: '';
   position: fixed; inset: 0; z-index: 9999;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.03;
+  opacity: 0.025;
+}
+
+/* subtle radial glow behind hero area */
+body::before {
+  content: '';
+  position: fixed; top: -120px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(74,144,232,0.07) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
 }
 
 .app {
   width: 100%; max-width: 440px;
-  padding: 0 18px 56px;
+  padding: 0 18px 60px;
   position: relative; z-index: 1;
 }
 
-/* ── SCREENS ── */
 .screen { display: none; }
-.screen.active { display: block; animation: rise .28s ease both; }
-@keyframes rise { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.screen.active { display: block; animation: rise .26s ease both; }
+@keyframes rise { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 /* ── TOP BAR ── */
 .top-bar {
-  display: flex; justify-content: space-between; align-items: flex-end;
+  display: flex; justify-content: space-between; align-items: center;
   padding: 22px 0 18px;
   border-bottom: 1px solid var(--wire);
   margin-bottom: 24px;
 }
 .wordmark {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.9rem; letter-spacing: 1px;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.45rem; font-weight: 800; letter-spacing: -0.01em;
   color: var(--chalk); line-height: 1;
 }
-.wordmark span { color: var(--amber); }
+.wordmark span { color: var(--blue2); }
 .bar-right { display: flex; gap: 8px; }
 .pill-btn {
   background: var(--ink3); border: 1px solid var(--wire2);
   color: var(--chalk2); border-radius: 100px;
   height: 32px; padding: 0 14px;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.74rem; font-weight: 500; letter-spacing: 0.03em;
   cursor: pointer; transition: color .15s, background .15s;
   display: flex; align-items: center; gap: 6px;
 }
 .pill-btn:hover { color: var(--chalk); background: var(--ink4); }
-.pill-btn.home-btn { padding: 0 12px; }
 
 /* ── HOME ── */
-.home-flag {
-  margin-top: 8px;
-  border-top: 3px solid var(--amber);
-  padding-top: 20px;
+.home-hero {
+  margin-top: 10px;
+  padding: 28px 0 30px;
+  border-bottom: 1px solid var(--wire);
   margin-bottom: 28px;
+  position: relative;
 }
-.home-flag h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(3.4rem, 14vw, 4.2rem);
-  letter-spacing: 1px; line-height: 0.95;
-  color: var(--chalk); margin-bottom: 14px;
+.home-hero::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+  background: linear-gradient(180deg, var(--blue2), var(--blue));
+  border-radius: 2px;
+  left: -4px;
 }
-.home-flag h1 em { color: var(--amber); font-style: normal; }
+.home-hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.8rem, 13vw, 3.6rem);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 0.97;
+  color: var(--chalk); margin-bottom: 16px;
+}
+.home-hero h1 em { color: var(--blue2); font-style: normal; }
 .home-slogan {
-  font-size: 0.82rem; color: var(--chalk2);
+  font-size: 0.85rem; color: var(--chalk2);
   font-style: italic; font-weight: 400;
   letter-spacing: 0.01em;
-  border-left: 2px solid var(--amber);
-  padding-left: 12px; line-height: 1.5;
+  line-height: 1.55;
 }
 
 .nav-cards {
@@ -121,32 +137,33 @@ body::after {
   border-radius: var(--r);
   padding: 18px 16px 16px;
   cursor: pointer;
-  transition: border-color .2s, transform .15s;
+  transition: border-color .2s, transform .15s, background .15s;
   text-align: left; position: relative; overflow: hidden;
 }
-.nav-card::before {
+.nav-card::after {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: var(--amber); transform: scaleX(0); transform-origin: left;
-  transition: transform .2s;
+  background: linear-gradient(90deg, var(--blue), var(--blue2));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .22s;
 }
-.nav-card:hover { border-color: var(--wire2); transform: translateY(-1px); }
-.nav-card:hover::before { transform: scaleX(1); }
+.nav-card:hover { border-color: var(--wire2); transform: translateY(-2px); background: var(--ink3); }
+.nav-card:hover::after { transform: scaleX(1); }
 .nav-card:active { transform: scale(0.98); }
-.nc-icon { font-size: 1.3rem; margin-bottom: 10px; display: block; }
+.nc-icon { font-size: 1.25rem; margin-bottom: 10px; display: block; }
 .nc-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.05rem; letter-spacing: 0.5px;
-  color: var(--chalk); margin-bottom: 3px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem; font-weight: 700; letter-spacing: -0.01em;
+  color: var(--chalk); margin-bottom: 4px;
 }
-.nc-desc { font-size: 0.72rem; color: var(--chalk3); line-height: 1.4; font-weight: 400; }
+.nc-desc { font-size: 0.71rem; color: var(--chalk3); line-height: 1.45; font-weight: 400; }
 .nav-card.wide { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; padding: 16px 18px; }
-.nav-card.wide .nc-icon { margin-bottom: 0; flex-shrink: 0; }
-.nav-card.wide .nc-desc { font-size: 0.75rem; }
+.nav-card.wide .nc-icon { margin-bottom: 0; flex-shrink: 0; font-size: 1.4rem; }
+.nav-card.wide .nc-title { font-size: 0.92rem; }
 
 .home-note {
   margin-top: 24px;
   font-size: 0.68rem; color: var(--chalk3);
-  line-height: 1.6; text-align: center;
+  line-height: 1.65; text-align: center;
   border-top: 1px solid var(--wire);
   padding-top: 16px;
 }
@@ -160,7 +177,7 @@ body::after {
   margin-bottom: 12px;
 }
 .card-label {
-  font-size: 0.62rem; font-weight: 600;
+  font-size: 0.61rem; font-weight: 600;
   letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--chalk3); margin-bottom: 14px;
 }
@@ -169,24 +186,25 @@ body::after {
 label.fl {
   display: block; font-size: 0.73rem;
   color: var(--chalk2); margin-bottom: 5px; margin-top: 12px;
+  font-weight: 400;
 }
 label.fl:first-child { margin-top: 0; }
 input[type="number"], input[type="text"], input[type="time"], select {
   width: 100%;
   background: var(--ink3); border: 1px solid var(--wire2);
-  border-radius: 9px; color: var(--chalk);
-  font-family: 'Instrument Sans', sans-serif;
+  border-radius: 8px; color: var(--chalk);
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.88rem; padding: 11px 13px;
-  outline: none; transition: border-color .15s;
+  outline: none; transition: border-color .15s, box-shadow .15s;
   -webkit-appearance: none; appearance: none;
 }
 select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C5650' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234A6080' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 12px center; padding-right: 30px; cursor: pointer;
 }
-input:focus, select:focus { border-color: var(--amber); }
+input:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(74,144,232,0.1); }
 input::placeholder { color: var(--chalk3); }
-input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
+input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.3); }
 .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
@@ -194,14 +212,14 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 .btn {
   display: block; width: 100%; border: none;
   border-radius: 9px; padding: 14px;
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.88rem; font-weight: 600;
   cursor: pointer; transition: opacity .15s, transform .12s;
-  letter-spacing: 0.02em; margin-bottom: 8px;
+  letter-spacing: 0.01em; margin-bottom: 8px;
 }
 .btn:active { transform: scale(0.97); }
-.btn-main { background: var(--amber); color: var(--ink); }
-.btn-main:hover { opacity: 0.9; }
+.btn-main { background: linear-gradient(135deg, var(--blue), #3070CC); color: #fff; }
+.btn-main:hover { opacity: 0.92; }
 .btn-ghost { background: var(--ink3); color: var(--chalk2); border: 1px solid var(--wire2); }
 .btn-ghost:hover { color: var(--chalk); }
 .btn-sm {
@@ -224,13 +242,13 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   background: none; border: none; color: var(--chalk3);
   cursor: pointer; height: 36px; width: 30px;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 7px; font-size: 1rem; transition: color .15s, background .15s;
+  border-radius: 7px; font-size: 0.95rem; transition: color .15s, background .15s;
 }
 .rm-row-btn:hover { color: var(--red); background: var(--rdim); }
 .add-row-btn {
   background: none; border: 1px dashed var(--ink4);
   border-radius: 8px; color: var(--chalk3);
-  font-family: 'Instrument Sans', sans-serif; font-size: 0.78rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
   padding: 9px 14px; cursor: pointer; width: 100%; text-align: left;
   transition: color .15s, border-color .15s; margin-top: 4px;
 }
@@ -239,18 +257,18 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 /* ── TRACKER LINK ── */
 .tracker-link {
   display: flex; align-items: center; gap: 10px;
-  background: var(--adim); border: 1px solid var(--abord);
+  background: var(--bdim); border: 1px solid var(--bbord);
   border-radius: 10px; padding: 11px 14px; margin-bottom: 12px;
-  font-size: 0.8rem; color: var(--amber); cursor: pointer;
-  font-family: 'Instrument Sans', sans-serif; transition: background .15s;
+  font-size: 0.8rem; color: var(--blue2); cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: background .15s;
 }
-.tracker-link:hover { background: rgba(240,165,0,0.2); }
+.tracker-link:hover { background: rgba(74,144,232,0.18); }
 .tracker-link span { margin-left: auto; }
 
 /* ── RESULT ── */
 .bac-hero {
   background: var(--ink2); border: 1px solid var(--wire);
-  border-radius: var(--r); padding: 30px 20px 26px;
+  border-radius: var(--r); padding: 32px 20px 28px;
   text-align: center; margin-bottom: 12px;
   position: relative; overflow: hidden;
 }
@@ -260,22 +278,24 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 .bac-hero.sg::before { background: radial-gradient(ellipse at 50% -20%, var(--gdim) 0%, transparent 65%); opacity:1; }
 .bac-hero.sy::before { background: radial-gradient(ellipse at 50% -20%, var(--adim) 0%, transparent 65%); opacity:1; }
 .bac-hero.sr::before { background: radial-gradient(ellipse at 50% -20%, var(--rdim) 0%, transparent 65%); opacity:1; }
+
 .bac-status {
-  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-  border-radius: 100px; padding: 4px 12px; display: inline-block; margin-bottom: 16px; border: 1px solid;
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  border-radius: 100px; padding: 4px 12px; display: inline-block; margin-bottom: 18px; border: 1px solid;
 }
-.bs-g { background: var(--gdim); color: var(--green); border-color: rgba(62,207,106,.25); }
-.bs-y { background: var(--adim); color: var(--amber); border-color: var(--abord); }
-.bs-r { background: var(--rdim); color: var(--red); border-color: rgba(232,64,64,.25); }
+.bs-g { background: var(--gdim); color: var(--green); border-color: rgba(62,207,160,.25); }
+.bs-y { background: var(--adim); color: var(--amber); border-color: rgba(240,184,64,.28); }
+.bs-r { background: var(--rdim); color: var(--red); border-color: rgba(232,80,80,.25); }
+
 .bac-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 6.5rem; letter-spacing: -1px; line-height: 1; margin-bottom: 4px;
+  font-family: 'Syne', sans-serif;
+  font-size: 6rem; font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 6px;
   transition: color .35s;
 }
 .bac-num.g { color: var(--green); }
 .bac-num.y { color: var(--amber); }
 .bac-num.r { color: var(--red); }
-.bac-sub { font-size: 0.68rem; color: var(--chalk3); text-transform: uppercase; letter-spacing: 0.1em; }
+.bac-sub { font-size: 0.67rem; color: var(--chalk3); text-transform: uppercase; letter-spacing: 0.1em; }
 
 .stat3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
 .stat-t {
@@ -283,10 +303,10 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   border-radius: 12px; padding: 14px 8px; text-align: center;
 }
 .stat-v {
-  font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem;
-  letter-spacing: 0.5px; margin-bottom: 1px;
+  font-family: 'Syne', sans-serif; font-size: 1.35rem; font-weight: 700;
+  letter-spacing: -0.02em; margin-bottom: 2px;
 }
-.stat-l { font-size: 0.6rem; color: var(--chalk3); text-transform: uppercase; letter-spacing: 0.08em; }
+.stat-l { font-size: 0.59rem; color: var(--chalk3); text-transform: uppercase; letter-spacing: 0.08em; }
 
 .burn-card {
   background: var(--ink2); border: 1px solid var(--wire);
@@ -296,25 +316,27 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   display: flex; justify-content: space-between;
   font-size: 0.72rem; color: var(--chalk3); margin-bottom: 10px;
 }
-.burn-head strong { color: var(--chalk2); font-weight: 600; }
-.bar-track { background: var(--ink4); border-radius: 100px; height: 5px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--green), var(--amber)); transition: width .9s cubic-bezier(.16,1,.3,1); width: 0; }
+.burn-head strong { color: var(--chalk2); font-weight: 500; }
+.bar-track { background: var(--ink4); border-radius: 100px; height: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--green), var(--amber), var(--red)); transition: width .9s cubic-bezier(.16,1,.3,1); width: 0; }
 
 .advice-card {
   background: var(--ink2); border: 1px solid var(--wire);
-  border-radius: var(--r); padding: 18px; margin-bottom: 12px;
+  border-radius: var(--r); padding: 20px; margin-bottom: 12px;
 }
-.advice-text { font-size: 0.88rem; line-height: 1.7; margin-bottom: 14px; color: var(--chalk); }
+.advice-text {
+  font-size: 0.88rem; line-height: 1.75; margin-bottom: 16px; color: var(--chalk);
+}
 .advice-sym {
   background: var(--ink3); border-left: 2px solid var(--blue);
-  border-radius: 0 8px 8px 0; padding: 12px 14px;
-  font-size: 0.8rem; color: var(--chalk2); line-height: 1.6;
+  border-radius: 0 8px 8px 0; padding: 13px 15px;
+  font-size: 0.8rem; color: var(--chalk2); line-height: 1.65;
 }
 
 .emerg {
-  background: var(--rdim); border: 1px solid rgba(232,64,64,.3);
-  border-radius: 10px; padding: 13px 15px;
-  font-size: 0.83rem; color: var(--red); line-height: 1.5;
+  background: var(--rdim); border: 1px solid rgba(232,80,80,.3);
+  border-radius: 10px; padding: 14px 16px;
+  font-size: 0.83rem; color: var(--red); line-height: 1.55;
   margin-bottom: 12px; display: none;
 }
 .emerg.show { display: block; }
@@ -322,12 +344,11 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 /* ── DRINK TRACKER ── */
 .time-row { display: flex; gap: 8px; align-items: flex-end; margin-top: 10px; }
 .time-row input[type="time"] { width: 126px; flex-shrink: 0; }
-.time-note { font-size: 0.68rem; color: var(--chalk3); flex: 1; padding-bottom: 12px; }
+.time-note { font-size: 0.67rem; color: var(--chalk3); flex: 1; padding-bottom: 12px; }
 
-.log-wrap { overflow: hidden; }
 .log-table { width: 100%; border-collapse: collapse; }
 .log-table thead th {
-  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em;
+  font-size: 0.59rem; font-weight: 600; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--chalk3);
   padding: 0 0 9px; text-align: left; border-bottom: 1px solid var(--wire);
 }
@@ -336,12 +357,12 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 .log-table tbody tr:last-child { border-bottom: none; }
 .log-table tbody td { padding: 9px 0; font-size: 0.83rem; vertical-align: middle; }
 .td-name { font-weight: 500; }
-.td-time { color: var(--chalk3); font-size: 0.76rem; font-variant-numeric: tabular-nums; padding-right: 8px; white-space: nowrap; }
+.td-time { color: var(--chalk3); font-size: 0.75rem; font-variant-numeric: tabular-nums; padding-right: 8px; white-space: nowrap; }
 .td-act { text-align: right; }
 .rm-log-btn {
   background: none; border: none; color: var(--chalk3);
-  cursor: pointer; font-family: 'Instrument Sans', sans-serif;
-  font-size: 0.75rem; padding: 3px 7px; border-radius: 5px;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-size: 0.73rem; padding: 3px 7px; border-radius: 5px;
   transition: color .15s, background .15s;
 }
 .rm-log-btn:hover { color: var(--red); background: var(--rdim); }
@@ -349,7 +370,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 .log-foot {
   display: flex; justify-content: space-between;
   padding-top: 10px; margin-top: 2px; border-top: 1px solid var(--wire);
-  font-size: 0.78rem; color: var(--chalk2);
+  font-size: 0.77rem; color: var(--chalk2);
 }
 .log-foot strong { color: var(--chalk); }
 
@@ -369,8 +390,8 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 .chip button:hover { color: var(--red); }
 .chips-empty { color: var(--chalk3); font-size: 0.8rem; }
 .winner-box {
-  background: var(--ink2); border: 1px solid rgba(62,207,106,.25);
-  border-radius: var(--r); padding: 28px 20px;
+  background: var(--ink2); border: 1px solid rgba(62,207,160,.22);
+  border-radius: var(--r); padding: 30px 20px;
   text-align: center; margin: 12px 0;
   position: relative; overflow: hidden; display: none;
 }
@@ -380,29 +401,25 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   background: radial-gradient(ellipse at 50% 0%, var(--gdim) 0%, transparent 60%);
   pointer-events:none;
 }
-.winner-eyebrow { font-size: 0.6rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--chalk3); margin-bottom:8px; }
+.winner-eyebrow { font-size: 0.59rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--chalk3); margin-bottom:10px; }
 .winner-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.8rem; letter-spacing: 1px; color: var(--green); margin-bottom: 4px; line-height: 1;
+  font-family: 'Syne', sans-serif;
+  font-size: 2.6rem; font-weight: 800; letter-spacing: -0.02em; color: var(--green); margin-bottom: 6px; line-height: 1;
 }
-.winner-sub { font-size: 0.78rem; color: var(--chalk2); font-style: italic; }
+.winner-sub { font-size: 0.77rem; color: var(--chalk2); font-style: italic; }
 
 /* ── FLASHCARDS ── */
 .fc-progress {
   display: flex; justify-content: space-between; align-items: center;
-  font-size: 0.72rem; color: var(--chalk3); margin-bottom: 14px;
+  font-size: 0.71rem; color: var(--chalk3); margin-bottom: 14px;
 }
 .fc-dots { display: flex; gap: 5px; }
 .fc-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink4); transition: background .25s; }
-.fc-dot.on { background: var(--amber); }
-.fc-scene {
-  perspective: 900px;
-  height: 220px; margin-bottom: 14px; cursor: pointer;
-}
+.fc-dot.on { background: var(--blue2); }
+.fc-scene { perspective: 900px; height: 220px; margin-bottom: 14px; cursor: pointer; }
 .fc-card {
   width: 100%; height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
+  position: relative; transform-style: preserve-3d;
   transition: transform .5s cubic-bezier(.4,0,.2,1);
 }
 .fc-card.flipped { transform: rotateY(180deg); }
@@ -414,23 +431,20 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   padding: 24px; text-align: center;
   backface-visibility: hidden; -webkit-backface-visibility: hidden;
 }
-.fc-face.back { transform: rotateY(180deg); background: var(--ink3); }
-.fc-face.back { border-color: var(--wire2); }
-.fc-emoji { font-size: 2.2rem; margin-bottom: 14px; }
+.fc-face.back { transform: rotateY(180deg); background: var(--ink3); border-color: var(--wire2); }
+.fc-emoji { font-size: 2rem; margin-bottom: 14px; }
 .fc-q {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.6rem; letter-spacing: 0.5px; color: var(--chalk);
-  line-height: 1.1; margin-bottom: 6px;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; color: var(--chalk);
+  line-height: 1.15; margin-bottom: 8px;
 }
-.fc-tap { font-size: 0.65rem; color: var(--chalk3); letter-spacing: 0.08em; text-transform: uppercase; }
-.fc-a {
-  font-size: 0.88rem; color: var(--chalk); line-height: 1.65;
-}
-.fc-a strong { color: var(--amber); font-weight: 600; }
+.fc-tap { font-size: 0.64rem; color: var(--chalk3); letter-spacing: 0.08em; text-transform: uppercase; }
+.fc-a { font-size: 0.88rem; color: var(--chalk); line-height: 1.7; }
+.fc-a strong { color: var(--blue2); font-weight: 600; }
 .fc-nav { display: flex; gap: 8px; }
 .fc-nav button {
   flex: 1; background: var(--ink3); border: 1px solid var(--wire2);
-  border-radius: 9px; color: var(--chalk2); font-family: 'Instrument Sans', sans-serif;
+  border-radius: 9px; color: var(--chalk2); font-family: 'DM Sans', sans-serif;
   font-size: 0.8rem; font-weight: 600; padding: 11px; cursor: pointer;
   transition: color .15s, background .15s;
 }
@@ -440,14 +454,21 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 /* ── REACTION TEST ── */
 .rt-intro {
   background: var(--ink2); border: 1px solid var(--wire);
-  border-radius: var(--r); padding: 24px 20px; margin-bottom: 12px; text-align: center;
+  border-radius: var(--r); padding: 26px 20px; margin-bottom: 12px; text-align: center;
 }
 .rt-intro h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.8rem; letter-spacing: 0.5px; margin-bottom: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px;
 }
-.rt-intro p { font-size: 0.85rem; color: var(--chalk2); line-height: 1.65; max-width: 300px; margin: 0 auto 20px; }
-.rt-small { font-size: 0.72rem; color: var(--chalk3); margin-top: 8px; font-style: italic; }
+.rt-intro p { font-size: 0.84rem; color: var(--chalk2); line-height: 1.7; max-width: 300px; margin: 0 auto 20px; }
+.rt-context {
+  background: var(--bdim); border: 1px solid var(--bbord);
+  border-radius: 9px; padding: 12px 14px; margin-bottom: 18px;
+  text-align: left;
+}
+.rt-context p { font-size: 0.78rem; color: var(--chalk2); line-height: 1.6; margin: 0; }
+.rt-context strong { color: var(--blue2); font-weight: 600; }
+.rt-small { font-size: 0.71rem; color: var(--chalk3); margin-top: 10px; font-style: italic; }
 
 .rt-arena {
   background: var(--ink2); border: 1px solid var(--wire);
@@ -464,31 +485,28 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   user-select: none; -webkit-user-select: none;
 }
 .rt-stage.waiting { background: var(--ink2); }
-.rt-stage.ready { background: var(--green); cursor: pointer; }
-.rt-stage.too-soon { background: var(--red); }
+.rt-stage.ready { background: #1A7A40; cursor: pointer; }
+.rt-stage.too-soon { background: #7A1A1A; }
 .rt-stage.done { background: var(--ink2); cursor: default; }
 
 .rt-big {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.4rem; letter-spacing: 1px; color: var(--chalk); margin-bottom: 6px; line-height: 1.1;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em; color: var(--chalk); margin-bottom: 6px; line-height: 1.1;
 }
-.rt-stage.ready .rt-big { color: var(--ink); font-size: 2.2rem; }
+.rt-stage.ready .rt-big { color: #fff; font-size: 2rem; }
 .rt-stage.too-soon .rt-big { color: var(--chalk); }
-.rt-sub { font-size: 0.8rem; color: var(--chalk3); }
-.rt-stage.ready .rt-sub { color: rgba(0,0,0,0.5); }
-.rt-stage.too-soon .rt-sub { color: rgba(255,255,255,0.6); }
+.rt-sub { font-size: 0.79rem; color: var(--chalk3); }
+.rt-stage.ready .rt-sub { color: rgba(255,255,255,0.55); }
+.rt-stage.too-soon .rt-sub { color: rgba(255,255,255,0.5); }
 
 .rt-rounds {
   display: grid; grid-template-columns: repeat(5, 1fr);
   gap: 6px; padding: 14px 16px; border-top: 1px solid var(--wire);
 }
-.rt-round-dot {
-  height: 5px; border-radius: 3px;
-  background: var(--ink4); transition: background .3s;
-}
+.rt-round-dot { height: 4px; border-radius: 3px; background: var(--ink4); transition: background .3s; }
 .rt-round-dot.hit { background: var(--green); }
 .rt-round-dot.miss { background: var(--red); }
-.rt-round-dot.active { background: var(--amber); }
+.rt-round-dot.active { background: var(--blue2); }
 
 .rt-result {
   background: var(--ink2); border: 1px solid var(--wire);
@@ -504,11 +522,18 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 .rt-result.ry::before { background: radial-gradient(ellipse at 50% 0%, var(--adim) 0%, transparent 60%); opacity:1; }
 .rt-result.rr::before { background: radial-gradient(ellipse at 50% 0%, var(--rdim) 0%, transparent 60%); opacity:1; }
 .rt-verdict {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 3rem; letter-spacing: 1px; line-height: 1; margin-bottom: 6px;
+  font-family: 'Syne', sans-serif;
+  font-size: 2.8rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px;
 }
-.rt-avg { font-size: 0.8rem; color: var(--chalk3); margin-bottom: 14px; font-variant-numeric: tabular-nums; }
-.rt-msg { font-size: 0.88rem; color: var(--chalk2); line-height: 1.65; max-width: 320px; margin: 0 auto; }
+.rt-avg { font-size: 0.79rem; color: var(--chalk3); margin-bottom: 14px; font-variant-numeric: tabular-nums; }
+.rt-msg { font-size: 0.87rem; color: var(--chalk2); line-height: 1.7; max-width: 320px; margin: 0 auto; }
+.rt-driving-context {
+  margin-top: 16px;
+  background: var(--ink3); border-left: 2px solid var(--blue);
+  border-radius: 0 8px 8px 0; padding: 12px 14px;
+  font-size: 0.79rem; color: var(--chalk2); line-height: 1.65; text-align: left;
+}
+.rt-driving-context strong { color: var(--blue2); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -519,47 +544,47 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   <div class="top-bar">
     <div class="wordmark">Ride<span>Right</span></div>
   </div>
-  <div class="home-flag">
-    <h1>Know<br>Before<br>You Go<em>.</em></h1>
-    <p class="home-slogan">Someone's waiting for you;<br>drive like it.</p>
+  <div class="home-hero">
+    <h1>Drive<br>Smart<em>.</em></h1>
+    <p class="home-slogan">Someone's waiting for you; drive like it.</p>
   </div>
 
   <div class="nav-cards">
     <div class="nav-card" id="nav-bac">
       <span class="nc-icon">🧪</span>
       <div class="nc-title">BAC Calculator</div>
-      <div class="nc-desc">Multiple drink types, one estimate</div>
+      <div class="nc-desc">Multiple drink types, one clear estimate</div>
     </div>
     <div class="nav-card" id="nav-tracker">
       <span class="nc-icon">📋</span>
       <div class="nc-title">Drink Tracker</div>
-      <div class="nc-desc">Log as you go, with timestamps</div>
+      <div class="nc-desc">Log drinks as you go with timestamps</div>
     </div>
     <div class="nav-card" id="nav-reaction">
       <span class="nc-icon">⚡</span>
       <div class="nc-title">Reaction Check</div>
-      <div class="nc-desc">See if your reflexes are up to it</div>
+      <div class="nc-desc">Test your reflexes against driving standards</div>
     </div>
     <div class="nav-card" id="nav-driver">
       <span class="nc-icon">🎯</span>
       <div class="nc-title">DD Picker</div>
-      <div class="nc-desc">Settle who's sober, fairly</div>
+      <div class="nc-desc">Pick a designated driver, fairly</div>
     </div>
     <div class="nav-card wide" id="nav-flash">
       <span class="nc-icon">🃏</span>
       <div>
-        <div class="nc-title">Know Your Facts</div>
-        <div class="nc-desc">Flashcards on BAC, limits, and what alcohol actually does</div>
+        <div class="nc-title">Know the Facts</div>
+        <div class="nc-desc">Flashcards on BAC, legal limits, and what alcohol actually does to your body</div>
       </div>
     </div>
   </div>
-  <p class="home-note">Estimates are not medical advice and vary by individual. If you're unsure — call a ride.</p>
+  <p class="home-note">Estimates are not a substitute for medical judgment and vary by individual. When in doubt — call a ride.</p>
 </div>
 
 <!-- ══════════ BAC CALCULATOR ══════════ -->
 <div class="screen" id="s-bac">
   <div class="top-bar">
-    <div class="wordmark">BAC Calc</div>
+    <div class="wordmark">BAC Calculator</div>
     <div class="bar-right"><button class="pill-btn home-btn nav-home">⌂ Home</button></div>
   </div>
 
@@ -567,7 +592,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
     <div class="card-label">About you</div>
     <div class="g3">
       <div><label class="fl">Sex</label><select id="bac-sex"><option value="Male">Male</option><option value="Female">Female</option></select></div>
-      <div><label class="fl">Age</label><select id="bac-age"><option value="21+">21+</option><option value="Under 21">Under 21</option></select></div>
+      <div><label class="fl">Age</label><select id="bac-age"><option value="21+">21 or older</option><option value="Under 21">Under 21</option></select></div>
       <div><label class="fl">Weight (lbs)</label><input type="number" id="bac-weight" placeholder="160" min="80" max="400"></div>
     </div>
     <label class="fl">Hours since your first drink</label>
@@ -577,8 +602,8 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   <div class="card">
     <div class="card-label">What you drank</div>
     <div style="display:grid;grid-template-columns:1fr 70px 30px;gap:8px;margin-bottom:6px;">
-      <span style="font-size:0.6rem;color:var(--chalk3);letter-spacing:0.1em;text-transform:uppercase;">Type</span>
-      <span style="font-size:0.6rem;color:var(--chalk3);letter-spacing:0.1em;text-transform:uppercase;">Qty</span>
+      <span style="font-size:0.59rem;color:var(--chalk3);letter-spacing:0.1em;text-transform:uppercase;">Drink Type</span>
+      <span style="font-size:0.59rem;color:var(--chalk3);letter-spacing:0.1em;text-transform:uppercase;">Qty</span>
       <span></span>
     </div>
     <div class="drink-rows" id="drink-rows"></div>
@@ -586,10 +611,10 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   </div>
 
   <button class="tracker-link" id="btn-use-tracker">
-    Pull from my Drink Tracker instead <span>→</span>
+    Import from my Drink Tracker instead <span>→</span>
   </button>
 
-  <button class="btn btn-main" id="btn-calc">Calculate</button>
+  <button class="btn btn-main" id="btn-calc">Calculate My BAC</button>
   <button class="btn btn-ghost nav-home">Back</button>
 </div>
 
@@ -598,12 +623,12 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   <div class="top-bar">
     <div class="wordmark">Your Result</div>
     <div class="bar-right">
-      <button class="pill-btn" id="btn-recalc">↺ Redo</button>
+      <button class="pill-btn" id="btn-recalc">↺ Recalculate</button>
       <button class="pill-btn home-btn nav-home">⌂</button>
     </div>
   </div>
 
-  <div class="emerg" id="emerg">⚠️ This BAC level may be life-threatening. Call 911 or get to an emergency room.</div>
+  <div class="emerg" id="emerg">⚠️ This BAC level may be life-threatening. Call 911 or get to an emergency room immediately.</div>
 
   <div class="bac-hero" id="bac-hero">
     <div class="bac-status bs-g" id="bac-status">Clear</div>
@@ -618,24 +643,24 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   </div>
 
   <div class="burn-card">
-    <div class="burn-head"><span>Time to burn off</span><strong id="burn-label">—</strong></div>
+    <div class="burn-head"><span>Time to metabolize</span><strong id="burn-label">—</strong></div>
     <div class="bar-track"><div class="bar-fill" id="bar-fill"></div></div>
   </div>
 
   <div class="advice-card">
-    <div class="card-label">Bottom line</div>
+    <div class="card-label">Our Recommendation</div>
     <div class="advice-text" id="advice-text"></div>
     <div class="advice-sym" id="advice-sym"></div>
   </div>
 
-  <button class="btn btn-main nav-home">Home</button>
+  <button class="btn btn-main nav-home">Back to Home</button>
   <button class="btn btn-ghost" id="btn-recalc2">Recalculate</button>
 </div>
 
 <!-- ══════════ DRINK TRACKER ══════════ -->
 <div class="screen" id="s-tracker">
   <div class="top-bar">
-    <div class="wordmark">Tracker</div>
+    <div class="wordmark">Drink Tracker</div>
     <div class="bar-right">
       <button class="pill-btn" id="btn-clr">✕ Clear</button>
       <button class="pill-btn home-btn nav-home">⌂</button>
@@ -690,7 +715,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
     </div>
   </div>
 
-  <button class="btn btn-main" id="btn-calc-from-log">Calculate BAC from this log</button>
+  <button class="btn btn-main" id="btn-calc-from-log">Calculate BAC from This Log</button>
   <button class="btn btn-ghost nav-home">Back</button>
 </div>
 
@@ -703,9 +728,12 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 
   <div class="rt-intro" id="rt-intro">
     <h2>How Fast Are You Right Now?</h2>
-    <p>Tap the button the moment it turns green. Five rounds. Your average reaction time will tell you something real.</p>
-    <button class="btn btn-main" id="btn-rt-start" style="max-width:200px;margin:0 auto;">Start</button>
-    <p class="rt-small">For reference: sober average is around 250ms. Impairment adds 50–100ms or more.</p>
+    <p>Tap the moment it turns green. Five rounds. Your average reaction time is then compared against driving safety benchmarks.</p>
+    <div class="rt-context">
+      <p>Alcohol slows reaction time before you feel impaired. At <strong>0.05% BAC</strong>, reaction time increases by up to <strong>40ms</strong>. At <strong>0.08%</strong>, that gap can exceed <strong>120ms</strong> — the difference between stopping in time and a collision at highway speeds.</p>
+    </div>
+    <button class="btn btn-main" id="btn-rt-start" style="max-width:200px;margin:0 auto;">Start Test</button>
+    <p class="rt-small">Sober baseline: approximately 200–250ms. This test is a rough indicator, not a clinical assessment.</p>
   </div>
 
   <div class="rt-arena" id="rt-arena">
@@ -721,6 +749,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
     <div class="rt-verdict" id="rt-verdict">—</div>
     <div class="rt-avg" id="rt-avg">Average: — ms</div>
     <div class="rt-msg" id="rt-msg"></div>
+    <div class="rt-driving-context" id="rt-driving-context"></div>
     <br>
     <button class="btn btn-main" id="btn-rt-retry" style="max-width:180px;margin:0 auto 8px;">Try Again</button>
     <button class="btn btn-ghost nav-home" style="max-width:180px;margin:0 auto;">Home</button>
@@ -738,9 +767,9 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   </div>
 
   <div class="card">
-    <div class="card-label">Add names</div>
+    <div class="card-label">Add people to the draw</div>
     <div style="display:flex;gap:8px;align-items:center;">
-      <input type="text" id="dd-input" placeholder="Type a name…" style="flex:1;margin:0;">
+      <input type="text" id="dd-input" placeholder="Enter a name…" style="flex:1;margin:0;">
       <button class="btn btn-main btn-sm" id="btn-dd-add">Add</button>
     </div>
   </div>
@@ -750,12 +779,12 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
     <div class="chips" id="dd-chips"><span class="chips-empty">Add names to get started.</span></div>
   </div>
 
-  <button class="btn btn-main" id="btn-dd-pick">Pick Someone</button>
+  <button class="btn btn-main" id="btn-dd-pick">Pick a Driver</button>
 
   <div class="winner-box" id="winner-box">
     <div class="winner-eyebrow">Tonight's designated driver</div>
     <div class="winner-name" id="winner-name">—</div>
-    <div class="winner-sub">drew the short straw — respect it</div>
+    <div class="winner-sub">respect the draw — no exceptions</div>
   </div>
 
   <button class="btn btn-ghost nav-home">Back</button>
@@ -764,7 +793,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
 <!-- ══════════ FLASHCARDS ══════════ -->
 <div class="screen" id="s-flash">
   <div class="top-bar">
-    <div class="wordmark">Know Your Facts</div>
+    <div class="wordmark">Know the Facts</div>
     <div class="bar-right"><button class="pill-btn home-btn nav-home">⌂</button></div>
   </div>
 
@@ -778,7 +807,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
       <div class="fc-face front" id="fc-front">
         <div class="fc-emoji" id="fc-emoji"></div>
         <div class="fc-q" id="fc-q"></div>
-        <div class="fc-tap">Tap to reveal</div>
+        <div class="fc-tap">Tap to reveal answer</div>
       </div>
       <div class="fc-face back" id="fc-back">
         <div class="fc-a" id="fc-a"></div>
@@ -787,7 +816,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.35); }
   </div>
 
   <div class="fc-nav">
-    <button id="fc-prev">← Prev</button>
+    <button id="fc-prev">← Previous</button>
     <button id="fc-next">Next →</button>
   </div>
 </div>
@@ -834,16 +863,16 @@ const DRINK_OPTS = (() => {
 })();
 
 const CARDS = [
-  {e:'⏱️', q:'How fast does your BAC drop?',   a:'Your liver burns off roughly <strong>0.015% BAC per hour</strong>. That\'s it. Coffee, cold showers, and water don\'t change the clock.'},
-  {e:'🍺', q:'What counts as "one drink"?',      a:'12 oz regular beer, 5 oz wine, or 1.5 oz of 80-proof spirits — each contains about <strong>0.6 oz of pure alcohol</strong>.'},
-  {e:'⚖️', q:'What\'s the legal limit?',          a:'In the US, it\'s <strong>0.08%</strong> for adults 21+. Under 21: effectively zero (0.00–0.02% in most states). Commercial drivers: 0.04%.'},
-  {e:'🧠', q:'When does impairment actually start?', a:'Most people show measurable impairment starting at <strong>0.02–0.05%</strong> — well below the legal limit. The limit is a legal line, not a safety guarantee.'},
-  {e:'🍔', q:'Does eating really help?',          a:'Yes — food in your stomach (especially fat and protein) <strong>slows alcohol absorption</strong> and can reduce your peak BAC by up to half. But it doesn\'t sober you up faster.'},
-  {e:'🚗', q:'Can you tell if you\'re too impaired to drive?', a:'Not reliably. Alcohol impairs the part of your brain that judges impairment. <strong>You feel more capable than you are.</strong> That\'s the core danger.'},
-  {e:'💊', q:'Does mixing with other substances change things?', a:'Yes — significantly. Weed, sedatives, antihistamines, and many prescriptions <strong>multiply impairment</strong>, often far beyond what BAC alone would suggest.'},
-  {e:'📉', q:'Why does weight matter for BAC?',    a:'Alcohol distributes through your body\'s water. A heavier person has <strong>more water volume</strong>, so the same amount of alcohol spreads thinner — resulting in a lower BAC.'},
-  {e:'😴', q:'What is alcohol poisoning?',         a:'When BAC hits 0.30%+, the brain\'s automatic functions start shutting down. Signs: unconsciousness, slow or irregular breathing, blue-tinged skin. <strong>Call 911 — this is an emergency.</strong>'},
-  {e:'🕐', q:'How long to be safe to drive after 3 drinks?', a:'Roughly <strong>3–4 hours</strong> for a 160 lb person — but it depends on sex, weight, food, and drink type. Use the BAC calculator for a real estimate. When in doubt, don\'t.'},
+  {e:'⏱️', q:'How quickly does your BAC drop?', a:'Your liver metabolizes roughly <strong>0.015% BAC per hour</strong>. That rate is fixed. Coffee, cold showers, and water have no effect on it.'},
+  {e:'🍺', q:'What counts as a standard drink?', a:'12 oz regular beer, 5 oz wine, or 1.5 oz of 80-proof spirits — each contains approximately <strong>0.6 oz of pure alcohol</strong>.'},
+  {e:'⚖️', q:'What is the legal BAC limit?', a:'In the US, it\'s <strong>0.08%</strong> for adults 21 and older. Under 21: effectively zero (0.00–0.02% in most states). Commercial drivers: 0.04%.'},
+  {e:'🧠', q:'When does impairment actually begin?', a:'Measurable impairment begins at <strong>0.02–0.05%</strong> — well below the legal limit. The legal limit is a line in the law, not a guarantee of safety.'},
+  {e:'🍔', q:'Does eating reduce your BAC?', a:'Food in your stomach — especially protein and fat — <strong>slows alcohol absorption</strong> and can cut your peak BAC nearly in half. It does not accelerate metabolism.'},
+  {e:'🚗', q:'Can you accurately judge your own impairment?', a:'No. Alcohol impairs the part of your brain responsible for self-assessment. <strong>You will feel more capable than you are.</strong> That\'s the fundamental risk.'},
+  {e:'💊', q:'Do other substances change the equation?', a:'Yes — significantly. Cannabis, sedatives, antihistamines, and many prescriptions <strong>compound impairment</strong> in ways that often exceed what BAC alone would predict.'},
+  {e:'📉', q:'Why does body weight affect BAC?', a:'Alcohol distributes through your body\'s water. A heavier person has <strong>more water volume</strong>, so the same quantity of alcohol produces a lower concentration.'},
+  {e:'😴', q:'What is alcohol poisoning?', a:'At 0.30% BAC and above, the brain\'s involuntary functions begin to shut down. Signs include unconsciousness, irregular breathing, and blue-tinted skin. <strong>Call 911 — this is a medical emergency.</strong>'},
+  {e:'🕐', q:'How long after 3 drinks is it safe to drive?', a:'Roughly <strong>3–4 hours</strong> for a 160 lb adult, depending on sex, food intake, and drink type. Use the BAC Calculator for a real estimate. If there\'s any doubt, don\'t drive.'},
 ];
 
 // ═══════════════════════════════════════
@@ -894,13 +923,13 @@ document.getElementById('btn-calc').addEventListener('click', () => {
   const h = parseFloat(document.getElementById('bac-hours').value) || 0;
   const sex = document.getElementById('bac-sex').value;
   const age = document.getElementById('bac-age').value;
-  if (!w || w < 50) { alert('Enter your weight to continue.'); return; }
+  if (!w || w < 50) { alert('Please enter your weight to continue.'); return; }
   let alc=0, qty=0;
   document.querySelectorAll('.drink-row').forEach(r => {
     const q = parseFloat(r.querySelector('.dr-qty').value)||0;
     qty += q; alc += q * getAlc(r.querySelector('.dr-type').value);
   });
-  if (!qty) { alert('Add at least one drink.'); return; }
+  if (!qty) { alert('Please add at least one drink.'); return; }
   const bac = calcBAC(alc, w, sex, h);
   renderResult(bac, age, qty);
   show('s-result');
@@ -912,62 +941,72 @@ function calcBAC(alcOz, lbs, sex, hrs) {
 }
 
 // ═══════════════════════════════════════
-// RESULT
+// RESULT — matches original recommendation logic
 // ═══════════════════════════════════════
 function renderResult(bac, age, qty) {
-  const u21 = age==='Under 21';
-  const s = bac<0.055?'g':bac<0.08?'y':'r';
-  const labels = {g:'Clear',y:'Caution',r:'Danger'};
-  const classes = {g:'bs-g',y:'bs-y',r:'bs-r'};
-  const numClass = {g:'g',y:'y',r:'r'};
+  const u21 = age === 'Under 21';
+  const s = bac < 0.055 ? 'g' : bac < 0.08 ? 'y' : 'r';
+  const labels = {g:'Clear', y:'Caution', r:'Danger'};
+  const classes = {g:'bs-g', y:'bs-y', r:'bs-r'};
 
   document.getElementById('bac-hero').className = 'bac-hero s'+s;
   const num = document.getElementById('bac-num');
-  num.textContent = bac.toFixed(3); num.className = 'bac-num '+numClass[s];
+  num.textContent = bac.toFixed(3); num.className = 'bac-num '+s;
   const pill = document.getElementById('bac-status');
   pill.textContent = labels[s]; pill.className = 'bac-status '+classes[s];
 
-  const lim = u21?0.01:0.08;
-  const ok = bac<lim;
-  const wh = bac<=lim ? 0 : Math.ceil((bac-(u21?0:0.07))/0.015);
-  document.getElementById('sv-wait').textContent = wh>0 ? wh+'h' : '< 1h';
-  document.getElementById('sv-drinks').textContent = Number.isInteger(qty)?qty:qty.toFixed(1);
+  const lim = u21 ? 0.01 : 0.08;
+  const ok = bac < lim;
+  const wh = bac <= lim ? 0 : Math.ceil((bac - (u21 ? 0 : 0.07)) / 0.015);
+  document.getElementById('sv-wait').textContent = wh > 0 ? wh+'h' : '< 1h';
+  document.getElementById('sv-drinks').textContent = Number.isInteger(qty) ? qty : qty.toFixed(1);
   const le = document.getElementById('sv-legal');
-  le.textContent = ok?'Legal':'Over'; le.style.color = ok?'var(--green)':'var(--red)';
+  le.textContent = ok ? 'Legal' : 'Over Limit';
+  le.style.color = ok ? 'var(--green)' : 'var(--red)';
 
-  document.getElementById('burn-label').textContent = wh>0 ? '~'+wh+' hrs' : 'You\'re good';
-  setTimeout(()=>{ document.getElementById('bar-fill').style.width=Math.min(100,(bac/0.4)*100)+'%'; },80);
+  document.getElementById('burn-label').textContent = wh > 0 ? '~'+wh+' hrs' : 'You\'re clear';
+  setTimeout(() => { document.getElementById('bar-fill').style.width = Math.min(100,(bac/0.4)*100)+'%'; }, 80);
 
-  document.getElementById('advice-text').textContent = getAdvice(bac,age);
+  document.getElementById('advice-text').textContent = getAdvice(bac, age);
   document.getElementById('advice-sym').textContent = getSymp(bac);
-  document.getElementById('emerg').classList.toggle('show', bac>=0.30);
+  document.getElementById('emerg').classList.toggle('show', bac >= 0.30);
 }
 
 function getAdvice(bac, age) {
-  const u = age==='Under 21';
-  if (bac<0.01) return 'Nothing showing. If you feel fine, you\'re probably fine to drive.';
-  if (bac<0.055) return u
-    ? `You\'re underage — anything over 0.01% is legally impaired in most states. Wait at least ${Math.ceil(bac/0.015)} hour(s) or call a ride.`
-    : 'You\'re under the 0.08% limit, but you may feel it. Use your judgment — or just take the safe call.';
-  if (bac<0.08) return u
-    ? `You\'re underage and over the threshold. Wait ${Math.ceil(bac/0.015)} hour(s) or get a ride.`
-    : 'Close to the limit. Not a great time to be making judgment calls. Get a ride.';
-  const w = Math.ceil((bac-0.07)/0.015);
-  return u
-    ? `Over both the 0.08% and underage limits. Don\'t drive. Wait at least ${w} hour(s) or get a ride home.`
-    : `Over the limit. Don\'t drive. You\'ll need at least ${w} hour(s) to clear the legal threshold — probably longer to drive safely.`;
+  const u21 = age === 'Under 21';
+  if (bac < 0.01) {
+    return "If you feel fine, you should be fine to drive.";
+  } else if (bac < 0.055) {
+    if (u21) {
+      return `Because you're underage, anything above 0.01% is considered legally impaired. Call a cab or wait at least ${Math.round(bac / 0.015)} hour(s) before driving.`;
+    } else {
+      return "The legal limit is 0.08%, so if you feel fine, you should be fine to drive. Use your judgment.";
+    }
+  } else if (bac < 0.08) {
+    if (u21) {
+      return `Because you're underage, anything above 0.01% is considered legally impaired. Call a cab or wait at least ${Math.round(bac / 0.015)} hour(s) before driving.`;
+    } else {
+      return "This is relatively close to the legal limit of 0.08%. Exercise caution — consider calling a ride.";
+    }
+  } else {
+    if (u21) {
+      return `This is at or above the general legal limit of 0.08% and the underage threshold of 0.01%. Do not drive. Call a cab or wait at least ${Math.round(bac / 0.015)} hour(s) before driving.`;
+    } else {
+      return `This is at or above the legal limit of 0.08%. Do not drive. Call a cab or wait at least ${Math.round((bac - 0.07) / 0.015)} hour(s) before driving.`;
+    }
+  }
 }
 
 function getSymp(bac) {
-  if (bac===0)   return 'No alcohol present. You\'re sober.';
-  if (bac<=0.02) return 'Mild loosening up. Judgment basically intact, but it starts here.';
-  if (bac<=0.05) return 'Lowered alertness, reduced inhibitions, some judgment slipping.';
-  if (bac<=0.08) return 'Coordination dropping, reaction time slowing, harder to assess risk accurately.';
-  if (bac<=0.10) return 'Slurred speech, slower thinking, reaction time noticeably impaired.';
-  if (bac<=0.15) return 'Mood swings, nausea, real loss of balance and muscle control.';
-  if (bac<=0.30) return 'Confusion, vomiting, heavy sedation. Get someone to watch you.';
-  if (bac<0.40)  return 'Alcohol poisoning territory. Risk of unconsciousness. Get medical help now.';
-  return 'Potentially fatal. Coma and respiratory failure risk. Call 911 immediately.';
+  if (bac === 0)   return "No alcohol present. You're sober.";
+  if (bac <= 0.02) return "At a BAC of 0.01–0.02%, you may notice an altered mood, a sense of relaxation, and a slight reduction in judgment.";
+  if (bac <= 0.05) return "At a BAC of 0.03–0.05%, you may feel uninhibited, with lowered alertness and mildly impaired judgment.";
+  if (bac <= 0.08) return "At a BAC of 0.06–0.08%, you may experience reduced muscle coordination, increased difficulty detecting hazards, and impaired reasoning.";
+  if (bac <= 0.10) return "At a BAC of 0.09–0.10%, expect a reduced reaction time, slurred speech, and noticeably slower thinking.";
+  if (bac <= 0.15) return "At a BAC of 0.11–0.15%, you may experience mood changes, nausea or vomiting, and significant loss of balance and muscle control.";
+  if (bac <= 0.30) return "At a BAC of 0.16–0.30%, you may experience confusion, vomiting, and heavy drowsiness. If symptoms worsen, seek medical attention.";
+  if (bac < 0.40)  return "At a BAC of 0.31–0.39%, alcohol poisoning is likely. Risk of unconsciousness is high. Seek medical attention immediately.";
+  return "A BAC of 0.40% or above is potentially fatal. You are at serious risk of coma and respiratory failure. Call 911 now.";
 }
 
 document.getElementById('btn-recalc').addEventListener('click', () => show('s-bac'));
@@ -978,8 +1017,8 @@ document.getElementById('btn-recalc2').addEventListener('click', () => show('s-b
 // ═══════════════════════════════════════
 let log = [];
 function nowStr() {
-  const n=new Date();
-  return n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');
+  const n = new Date();
+  return n.getHours().toString().padStart(2,'0') + ':' + n.getMinutes().toString().padStart(2,'0');
 }
 function setTimeNow() { document.getElementById('t-time').value = nowStr(); }
 
@@ -990,54 +1029,53 @@ function renderLog() {
   const existing = body.querySelector('table');
   if (existing) existing.remove();
   if (!log.length) { empty.style.display=''; foot.style.display='none'; return; }
-  empty.style.display='none';
+  empty.style.display = 'none';
   const t = document.createElement('table');
-  t.className='log-table';
-  t.innerHTML=`<thead><tr><th>Drink</th><th>Time</th><th></th></tr></thead><tbody></tbody>`;
+  t.className = 'log-table';
+  t.innerHTML = `<thead><tr><th>Drink</th><th>Time</th><th></th></tr></thead><tbody></tbody>`;
   const tb = t.querySelector('tbody');
-  log.forEach((item,i)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td class="td-name">${item.name}</td><td class="td-time">${item.time}</td><td class="td-act"><button class="rm-log-btn" data-i="${i}">Remove</button></td>`;
+  log.forEach((item,i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="td-name">${item.name}</td><td class="td-time">${item.time}</td><td class="td-act"><button class="rm-log-btn" data-i="${i}">Remove</button></td>`;
     tb.appendChild(tr);
   });
   body.appendChild(t);
-  foot.style.display='flex';
-  document.getElementById('lf-count').textContent=log.length;
-  document.getElementById('lf-alc').textContent=log.reduce((s,d)=>s+getAlc(d.name),0).toFixed(1);
+  foot.style.display = 'flex';
+  document.getElementById('lf-count').textContent = log.length;
+  document.getElementById('lf-alc').textContent = log.reduce((s,d) => s+getAlc(d.name), 0).toFixed(1);
 }
 
-document.getElementById('log-body').addEventListener('click', e=>{
-  const b=e.target.closest('.rm-log-btn');
+document.getElementById('log-body').addEventListener('click', e => {
+  const b = e.target.closest('.rm-log-btn');
   if (!b) return;
-  log.splice(parseInt(b.dataset.i),1); renderLog();
+  log.splice(parseInt(b.dataset.i), 1); renderLog();
 });
-document.getElementById('btn-log').addEventListener('click', ()=>{
-  const name=document.getElementById('t-type').value;
-  const time=document.getElementById('t-time').value||nowStr();
-  log.push({name,time}); renderLog(); setTimeNow();
+document.getElementById('btn-log').addEventListener('click', () => {
+  const name = document.getElementById('t-type').value;
+  const time = document.getElementById('t-time').value || nowStr();
+  log.push({name, time}); renderLog(); setTimeNow();
 });
-document.getElementById('btn-clr').addEventListener('click', ()=>{
+document.getElementById('btn-clr').addEventListener('click', () => {
   if (!log.length) return;
   if (confirm('Clear all logged drinks?')) { log=[]; renderLog(); }
 });
-
-document.getElementById('btn-calc-from-log').addEventListener('click', ()=>{
+document.getElementById('btn-calc-from-log').addEventListener('click', () => {
   if (!log.length) { alert('Nothing logged yet.'); return; }
-  const c=document.getElementById('drink-rows');
-  while(c.firstChild) c.removeChild(c.firstChild);
-  rowId=0;
-  const agg={};
-  log.forEach(d=>{ agg[d.name]=(agg[d.name]||0)+1; });
-  Object.entries(agg).forEach(([name,qty])=>{
-    const row=makeRow(rowId++); c.appendChild(row);
-    const opt=Array.from(row.querySelector('.dr-type').options).find(o=>o.value===name);
-    if (opt) row.querySelector('.dr-type').value=name;
-    row.querySelector('.dr-qty').value=qty;
+  const c = document.getElementById('drink-rows');
+  while (c.firstChild) c.removeChild(c.firstChild);
+  rowId = 0;
+  const agg = {};
+  log.forEach(d => { agg[d.name] = (agg[d.name]||0) + 1; });
+  Object.entries(agg).forEach(([name, qty]) => {
+    const row = makeRow(rowId++); c.appendChild(row);
+    const opt = Array.from(row.querySelector('.dr-type').options).find(o => o.value === name);
+    if (opt) row.querySelector('.dr-type').value = name;
+    row.querySelector('.dr-qty').value = qty;
   });
-  const times=log.map(d=>{ const [h,m]=d.time.split(':').map(Number); return h*60+m; });
-  const earliest=Math.min(...times);
-  const n=new Date(); const nowMin=n.getHours()*60+n.getMinutes();
-  document.getElementById('bac-hours').value=Math.max(0,(nowMin-earliest)/60).toFixed(1);
+  const times = log.map(d => { const [h,m] = d.time.split(':').map(Number); return h*60+m; });
+  const earliest = Math.min(...times);
+  const n = new Date(); const nowMin = n.getHours()*60 + n.getMinutes();
+  document.getElementById('bac-hours').value = Math.max(0,(nowMin-earliest)/60).toFixed(1);
   show('s-bac');
 });
 
@@ -1047,7 +1085,7 @@ setTimeNow();
 // REACTION TEST
 // ═══════════════════════════════════════
 let rtState='idle', rtTimer=null, rtStart=null, rtRound=0, rtResults=[];
-const RT_ROUNDS=5;
+const RT_ROUNDS = 5;
 
 function resetRT() {
   clearTimeout(rtTimer);
@@ -1061,24 +1099,25 @@ function resetRT() {
 }
 
 function renderRTDots() {
-  const c=document.getElementById('rt-rounds');
-  c.innerHTML='';
-  for(let i=0;i<RT_ROUNDS;i++){
-    const d=document.createElement('div');
-    d.className='rt-round-dot'+(i<rtRound?(rtResults[i]?'hit':'miss'):i===rtRound?' active':'');
-    // correct logic
-    d.className='rt-round-dot';
-    if (i<rtResults.length) d.classList.add('hit');
-    else if (i===rtRound && rtState==='waiting') d.classList.add('active');
+  const c = document.getElementById('rt-rounds');
+  c.innerHTML = '';
+  for (let i=0; i<RT_ROUNDS; i++) {
+    const d = document.createElement('div');
+    d.className = 'rt-round-dot';
+    if (i < rtResults.length) {
+      d.classList.add(rtResults[i] !== null ? 'hit' : 'miss');
+    } else if (i === rtRound && rtState === 'waiting') {
+      d.classList.add('active');
+    }
     c.appendChild(d);
   }
 }
 
 function setStage(cls, big, sub) {
-  const s=document.getElementById('rt-stage');
-  s.className='rt-stage '+cls;
-  document.getElementById('rt-big').textContent=big;
-  document.getElementById('rt-sub').textContent=sub;
+  const s = document.getElementById('rt-stage');
+  s.className = 'rt-stage '+cls;
+  document.getElementById('rt-big').textContent = big;
+  document.getElementById('rt-sub').textContent = sub;
 }
 
 function startRT() {
@@ -1091,31 +1130,31 @@ function startRT() {
 }
 
 function nextRound() {
-  if (rtRound>=RT_ROUNDS) { showRTResult(); return; }
-  rtState='waiting';
+  if (rtRound >= RT_ROUNDS) { showRTResult(); return; }
+  rtState = 'waiting';
   setStage('waiting', 'Round '+(rtRound+1)+' of '+RT_ROUNDS, 'Don\'t tap yet…');
   renderRTDots();
-  const delay = 1800 + Math.random()*2800;
-  rtTimer = setTimeout(()=>{
-    if (rtState!=='waiting') return;
-    rtState='ready'; rtStart=performance.now();
-    setStage('ready','TAP NOW','');
+  const delay = 1800 + Math.random() * 2800;
+  rtTimer = setTimeout(() => {
+    if (rtState !== 'waiting') return;
+    rtState = 'ready'; rtStart = performance.now();
+    setStage('ready', 'TAP NOW', '');
   }, delay);
 }
 
-document.getElementById('rt-stage').addEventListener('click', ()=>{
-  if (rtState==='ready') {
-    const ms=Math.round(performance.now()-rtStart);
+document.getElementById('rt-stage').addEventListener('click', () => {
+  if (rtState === 'ready') {
+    const ms = Math.round(performance.now() - rtStart);
     rtResults.push(ms); rtRound++;
     setStage('waiting','','');
     renderRTDots();
     setTimeout(nextRound, 600);
-  } else if (rtState==='waiting') {
+  } else if (rtState === 'waiting') {
     clearTimeout(rtTimer);
-    rtState='too-soon';
-    setStage('too-soon','Too Early!','Wait for green…');
+    rtState = 'too-soon';
+    setStage('too-soon', 'Too Early', 'Wait for green…');
     rtRound++;
-    rtResults.push(null); // null = miss
+    rtResults.push(null);
     renderRTDots();
     setTimeout(nextRound, 1200);
   }
@@ -1123,116 +1162,133 @@ document.getElementById('rt-stage').addEventListener('click', ()=>{
 
 function showRTResult() {
   document.getElementById('rt-arena').classList.remove('show');
-  const valid=rtResults.filter(v=>v!==null);
-  const avg=valid.length ? Math.round(valid.reduce((a,b)=>a+b,0)/valid.length) : null;
-  const res=document.getElementById('rt-result');
+  const valid = rtResults.filter(v => v !== null);
+  const avg = valid.length ? Math.round(valid.reduce((a,b) => a+b, 0) / valid.length) : null;
+  const res = document.getElementById('rt-result');
+  const misses = rtResults.filter(v => v === null).length;
 
-  let verdict, msg, cls;
-  if (!avg || avg>450) {
-    verdict='Slow'; cls='rr';
-    const pill='bs-r'; document.getElementById('rt-pill').className='bac-status '+pill; document.getElementById('rt-pill').textContent='Concern';
-    msg="That's a noticeably slow reaction time. Alcohol, fatigue, or both can cause this. It's worth considering whether you're in the right state to drive.";
-  } else if (avg>320) {
-    verdict='Sluggish'; cls='ry';
-    document.getElementById('rt-pill').className='bac-status bs-y'; document.getElementById('rt-pill').textContent='Take Note';
-    msg="You're on the slower end. Not an alarm bell on its own — nerves and phone screens affect this too — but pair this with even a couple drinks and you're in risky territory.";
-  } else if (avg>250) {
-    verdict='Normal'; cls='rg';
-    document.getElementById('rt-pill').className='bac-status bs-g'; document.getElementById('rt-pill').textContent='Baseline';
-    msg="About average for a sober adult. That said, this test measures simple reflexes — actual driving involves much more complex judgments.";
+  let verdict, msg, drivingContext, cls;
+
+  if (!avg || avg > 450) {
+    verdict = 'Slow'; cls = 'rr';
+    document.getElementById('rt-pill').className = 'bac-status bs-r';
+    document.getElementById('rt-pill').textContent = 'Concern';
+    msg = "That's a significantly slow reaction time. Alcohol, fatigue, or both are common causes. This result warrants serious consideration before getting behind the wheel.";
+    drivingContext = "At highway speeds (65 mph), a 450ms reaction time means your vehicle travels over <strong>43 feet</strong> before you even begin to brake. Alcohol-related crashes are the leading cause of traffic fatalities in the US.";
+  } else if (avg > 320) {
+    verdict = 'Sluggish'; cls = 'ry';
+    document.getElementById('rt-pill').className = 'bac-status bs-y';
+    document.getElementById('rt-pill').textContent = 'Take Note';
+    msg = "You're on the slower end of the normal range. On its own, this isn't necessarily alarming — anxiety and screen fatigue can contribute. But combined with even moderate drinking, you're in risky territory.";
+    drivingContext = "Studies show that at <strong>0.05% BAC</strong>, reaction time increases by an average of 40ms. At 0.08%, that gap grows to over 120ms — enough to miss a stopped car or a pedestrian at low speed.";
+  } else if (avg > 250) {
+    verdict = 'Normal'; cls = 'rg';
+    document.getElementById('rt-pill').className = 'bac-status bs-g';
+    document.getElementById('rt-pill').textContent = 'Baseline';
+    msg = "About average for a sober adult. That said, this test measures simple tap reflexes — real driving involves complex hazard recognition, lane tracking, and split-second decision-making that alcohol degrades before you notice.";
+    drivingContext = "Even at a <strong>normal baseline</strong>, one or two drinks can measurably slow your hazard detection. The National Highway Traffic Safety Administration reports that impairment at the wheel begins well below the 0.08% legal limit.";
   } else {
-    verdict='Sharp'; cls='rg';
-    document.getElementById('rt-pill').className='bac-status bs-g'; document.getElementById('rt-pill').textContent='Quick';
-    msg="Fast. For context, sober reaction times are usually 200–300ms. Keep in mind — one drink starts affecting this before you feel it.";
+    verdict = 'Sharp'; cls = 'rg';
+    document.getElementById('rt-pill').className = 'bac-status bs-g';
+    document.getElementById('rt-pill').textContent = 'Quick';
+    msg = "Fast reactions — well within the sober range. Keep in mind that even sharp reflexes are noticeably degraded after a couple of drinks, often before you can feel the difference yourself.";
+    drivingContext = "For context: at <strong>0.08% BAC</strong>, even people with faster-than-average baseline reaction times often perform worse than impaired-feeling sober drivers. The brain's self-assessment is the first thing alcohol impairs.";
   }
 
-  const misses=rtResults.filter(v=>v===null).length;
-  if (misses>1) msg += ` You tapped early ${misses} time(s), which can also signal impulsive responses — a sign of impairment.`;
+  if (misses > 1) {
+    msg += ` You tapped early ${misses} time(s) — impulsive responses can be another indicator of impaired cognitive control.`;
+  }
 
-  res.className='rt-result '+cls;
-  document.getElementById('rt-verdict').textContent=verdict;
-  document.getElementById('rt-avg').textContent=avg ? `Average: ${avg} ms across ${valid.length} round(s)` : 'No clean rounds recorded';
-  document.getElementById('rt-msg').textContent=msg;
+  res.className = 'rt-result '+cls;
+  document.getElementById('rt-verdict').textContent = verdict;
+  document.getElementById('rt-avg').textContent = avg
+    ? `Average: ${avg}ms across ${valid.length} valid round${valid.length !== 1 ? 's' : ''}`
+    : 'No clean rounds recorded';
+  document.getElementById('rt-msg').textContent = msg;
+  document.getElementById('rt-driving-context').innerHTML = drivingContext;
   res.classList.add('show');
 }
 
 document.getElementById('btn-rt-start').addEventListener('click', startRT);
-document.getElementById('btn-rt-retry').addEventListener('click', ()=>{ resetRT(); startRT(); });
+document.getElementById('btn-rt-retry').addEventListener('click', () => { resetRT(); startRT(); });
 
 // ═══════════════════════════════════════
 // DD PICKER
 // ═══════════════════════════════════════
-let dds=[];
+let dds = [];
 function renderDDs() {
-  const c=document.getElementById('dd-chips');
-  c.innerHTML='';
-  if (!dds.length) { c.innerHTML='<span class="chips-empty">Add names to get started.</span>'; }
-  else dds.forEach((n,i)=>{
-    const ch=document.createElement('div'); ch.className='chip';
-    ch.innerHTML=`<span>${n}</span><button data-i="${i}">✕</button>`;
-    c.appendChild(ch);
-  });
-  document.getElementById('dd-count').textContent='— '+dds.length;
+  const c = document.getElementById('dd-chips');
+  c.innerHTML = '';
+  if (!dds.length) {
+    c.innerHTML = '<span class="chips-empty">Add names to get started.</span>';
+  } else {
+    dds.forEach((n,i) => {
+      const ch = document.createElement('div'); ch.className = 'chip';
+      ch.innerHTML = `<span>${n}</span><button data-i="${i}">✕</button>`;
+      c.appendChild(ch);
+    });
+  }
+  document.getElementById('dd-count').textContent = '— '+dds.length;
 }
-document.getElementById('btn-dd-add').addEventListener('click', ()=>{
-  const inp=document.getElementById('dd-input');
-  const v=inp.value.trim();
+document.getElementById('btn-dd-add').addEventListener('click', () => {
+  const inp = document.getElementById('dd-input');
+  const v = inp.value.trim();
   if (v && !dds.includes(v)) { dds.push(v); renderDDs(); document.getElementById('winner-box').classList.remove('show'); }
-  inp.value=''; inp.focus();
+  inp.value = ''; inp.focus();
 });
-document.getElementById('dd-input').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('btn-dd-add').click(); });
-document.getElementById('dd-chips').addEventListener('click', e=>{
-  const b=e.target.closest('button'); if(!b||b.dataset.i===undefined) return;
-  dds.splice(parseInt(b.dataset.i),1); renderDDs(); document.getElementById('winner-box').classList.remove('show');
+document.getElementById('dd-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('btn-dd-add').click();
 });
-document.getElementById('btn-dd-pick').addEventListener('click', ()=>{
+document.getElementById('dd-chips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b || b.dataset.i === undefined) return;
+  dds.splice(parseInt(b.dataset.i), 1); renderDDs(); document.getElementById('winner-box').classList.remove('show');
+});
+document.getElementById('btn-dd-pick').addEventListener('click', () => {
   if (!dds.length) { alert('Add at least one name first.'); return; }
-  const w=dds[Math.floor(Math.random()*dds.length)];
-  document.getElementById('winner-name').textContent=w;
-  const wb=document.getElementById('winner-box');
-  wb.classList.remove('show'); requestAnimationFrame(()=>wb.classList.add('show'));
+  const w = dds[Math.floor(Math.random() * dds.length)];
+  document.getElementById('winner-name').textContent = w;
+  const wb = document.getElementById('winner-box');
+  wb.classList.remove('show'); requestAnimationFrame(() => wb.classList.add('show'));
 });
-document.getElementById('btn-dd-reset').addEventListener('click', ()=>{
-  dds=[]; renderDDs(); document.getElementById('winner-box').classList.remove('show');
-  document.getElementById('dd-input').value='';
+document.getElementById('btn-dd-reset').addEventListener('click', () => {
+  dds = []; renderDDs(); document.getElementById('winner-box').classList.remove('show');
+  document.getElementById('dd-input').value = '';
 });
 
 // ═══════════════════════════════════════
 // FLASHCARDS
 // ═══════════════════════════════════════
-let fcIdx=0, fcFlipped=false;
+let fcIdx = 0, fcFlipped = false;
 function initCards() { fcIdx=0; fcFlipped=false; renderCard(); }
 function renderCard() {
-  const c=CARDS[fcIdx];
-  const card=document.getElementById('fc-card');
-  // reset flip without animation
-  card.style.transition='none';
+  const c = CARDS[fcIdx];
+  const card = document.getElementById('fc-card');
+  card.style.transition = 'none';
   card.classList.remove('flipped');
-  fcFlipped=false;
-  requestAnimationFrame(()=>{
-    card.style.transition='';
-    document.getElementById('fc-emoji').textContent=c.e;
-    document.getElementById('fc-q').textContent=c.q;
-    document.getElementById('fc-a').innerHTML=c.a;
-    document.getElementById('fc-counter').textContent=(fcIdx+1)+' / '+CARDS.length;
-    // dots
-    const dotsEl=document.getElementById('fc-dots');
-    dotsEl.innerHTML='';
-    CARDS.forEach((_,i)=>{
-      const d=document.createElement('div');
-      d.className='fc-dot'+(i===fcIdx?' on':'');
+  fcFlipped = false;
+  requestAnimationFrame(() => {
+    card.style.transition = '';
+    document.getElementById('fc-emoji').textContent = c.e;
+    document.getElementById('fc-q').textContent = c.q;
+    document.getElementById('fc-a').innerHTML = c.a;
+    document.getElementById('fc-counter').textContent = (fcIdx+1)+' / '+CARDS.length;
+    const dotsEl = document.getElementById('fc-dots');
+    dotsEl.innerHTML = '';
+    CARDS.forEach((_,i) => {
+      const d = document.createElement('div');
+      d.className = 'fc-dot' + (i===fcIdx ? ' on' : '');
       dotsEl.appendChild(d);
     });
-    document.getElementById('fc-prev').disabled=fcIdx===0;
-    document.getElementById('fc-next').disabled=fcIdx===CARDS.length-1;
+    document.getElementById('fc-prev').disabled = fcIdx === 0;
+    document.getElementById('fc-next').disabled = fcIdx === CARDS.length-1;
   });
 }
-document.getElementById('fc-scene').addEventListener('click', ()=>{
-  fcFlipped=!fcFlipped;
-  document.getElementById('fc-card').classList.toggle('flipped',fcFlipped);
+document.getElementById('fc-scene').addEventListener('click', () => {
+  fcFlipped = !fcFlipped;
+  document.getElementById('fc-card').classList.toggle('flipped', fcFlipped);
 });
-document.getElementById('fc-prev').addEventListener('click', ()=>{ if(fcIdx>0){fcIdx--;renderCard();} });
-document.getElementById('fc-next').addEventListener('click', ()=>{ if(fcIdx<CARDS.length-1){fcIdx++;renderCard();} });
+document.getElementById('fc-prev').addEventListener('click', () => { if(fcIdx>0){fcIdx--;renderCard();} });
+document.getElementById('fc-next').addEventListener('click', () => { if(fcIdx<CARDS.length-1){fcIdx++;renderCard();} });
 </script>
 </body>
 </html>
